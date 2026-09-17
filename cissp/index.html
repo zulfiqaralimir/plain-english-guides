@@ -1,0 +1,843 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>CISSP in Plain English</title>
+<style>
+:root{color-scheme:light dark;}
+body{margin:0;}
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap');
+
+:root{
+  --bg:#EEF1EF;
+  --surface:#FFFFFF;
+  --surface-2:#E5E9E7;
+  --ink:#182126;
+  --ink-soft:#4B5A5F;
+  --line:#CCD5D2;
+  --accent:#1B4F91;
+  --accent-strong:#123566;
+  --accent-tint:#DCE5F1;
+  --gold:#9C7A28;
+  --gold-tint:#F1E7CC;
+  --new:#1E7A3D;
+  --shadow:0 1px 2px rgba(18,53,102,.06), 0 6px 20px rgba(18,53,102,.06);
+
+  /* per-domain accent colors (light) */
+  --d1:#1B4F91; --d1-tint:#DCE5F1;
+  --d2:#9C6B1F; --d2-tint:#F3E6CC;
+  --d3:#4A5FA5; --d3-tint:#E3E6F5;
+  --d4:#B4552E; --d4-tint:#F6E3D8;
+  --d5:#A02F4E; --d5-tint:#F5DEE5;
+  --d6:#2E7D4F; --d6-tint:#DCEFE2;
+  --d7:#3D6B99; --d7-tint:#DCE7F2;
+  --d8:#7A4FA0; --d8-tint:#EDE1F5;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#12181B; --surface:#1A2226; --surface-2:#212B2F;
+    --ink:#E8EDEC; --ink-soft:#A9B7B8; --line:#2C383C;
+    --accent:#5B8FD6; --accent-strong:#8FB4E8; --accent-tint:#1D2A3A;
+    --gold:#D6B65C; --gold-tint:#332A16;
+    --new:#5FD489;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+    --d1:#5B8FD6; --d1-tint:#1D2A3A;
+    --d2:#D6A93F; --d2-tint:#332913;
+    --d3:#8C9EE8; --d3-tint:#232A45;
+    --d4:#E08858; --d4-tint:#3A2519;
+    --d5:#E0708C; --d5-tint:#3A1F27;
+    --d6:#5FD49B; --d6-tint:#173328;
+    --d7:#7FB0E0; --d7-tint:#1E2E42;
+    --d8:#C79FE8; --d8-tint:#2E2140;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12181B; --surface:#1A2226; --surface-2:#212B2F;
+  --ink:#E8EDEC; --ink-soft:#A9B7B8; --line:#2C383C;
+  --accent:#5B8FD6; --accent-strong:#8FB4E8; --accent-tint:#1D2A3A;
+  --gold:#D6B65C; --gold-tint:#332A16;
+  --new:#5FD489;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+  --d1:#5B8FD6; --d1-tint:#1D2A3A;
+  --d2:#D6A93F; --d2-tint:#332913;
+  --d3:#8C9EE8; --d3-tint:#232A45;
+  --d4:#E08858; --d4-tint:#3A2519;
+  --d5:#E0708C; --d5-tint:#3A1F27;
+  --d6:#5FD49B; --d6-tint:#173328;
+  --d7:#7FB0E0; --d7-tint:#1E2E42;
+  --d8:#C79FE8; --d8-tint:#2E2140;
+}
+
+*{box-sizing:border-box;}
+html{font-size:19px;}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Public Sans',system-ui,-apple-system,sans-serif;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{
+  font-family:'Source Serif 4',Georgia,'Times New Roman',serif;
+  text-wrap:balance;
+  color:var(--ink);
+  margin:0;
+}
+code, .mono{font-family:'IBM Plex Mono',ui-monospace,monospace;}
+a{color:var(--accent-strong);}
+ul{margin:0;padding-left:1.15em;}
+li{margin:0 0 6px;}
+li:last-child{margin-bottom:0;}
+li b, .plain b, .remember b{color:inherit;}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.001ms !important; transition-duration:.001ms !important;}
+}
+
+/* ---------- shell ---------- */
+.shell{
+  max-width:1560px;
+  margin:0 auto;
+  padding:0 32px;
+  display:grid;
+  grid-template-columns:230px minmax(0,1fr);
+  gap:40px;
+}
+@media (max-width:880px){
+  .shell{grid-template-columns:1fr;padding:0 20px;}
+}
+
+/* ---------- header / hero ---------- */
+.hero{
+  grid-column:1/-1;
+  padding:44px 0 30px;
+  border-bottom:1px solid var(--line);
+}
+.hero .eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font:600 12px/1 'IBM Plex Mono',monospace;
+  letter-spacing:.08em;text-transform:uppercase;
+  color:var(--accent-strong);
+  background:var(--accent-tint);
+  padding:6px 10px;border-radius:5px;
+  margin-bottom:16px;
+  animation:fadeUp .6s ease both;
+}
+.hero h1{
+  font-size:clamp(2rem,4.5vw,3rem);font-weight:700;max-width:16ch;
+  background:linear-gradient(110deg,var(--accent-strong),var(--d5) 45%,var(--d2) 70%,var(--accent-strong));
+  background-size:250% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:fadeUp .6s ease .1s both,shimmer 7s ease-in-out .8s infinite alternate;
+}
+.hero p.lede{
+  margin-top:14px;max-width:62ch;
+  font-size:1.15rem;color:var(--ink-soft);
+  animation:fadeUp .6s ease .2s both;
+}
+.hero-meta{
+  display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:24px;
+  animation:fadeUp .6s ease .3s both;
+}
+.hero-meta div{font-size:.95rem;color:var(--ink-soft);}
+.hero-meta strong{display:block;font:600 1.2rem 'Source Serif 4',serif;color:var(--ink);}
+
+/* ---------- sidebar / toc ---------- */
+.toc{
+  position:sticky;top:20px;align-self:start;
+  padding:18px 0 40px;
+}
+.toc-title{
+  font:600 11px/1 'IBM Plex Mono',monospace;
+  letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink-soft);margin-bottom:12px;
+}
+.toc ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:3px;}
+.toc a{
+  display:flex;align-items:center;gap:10px;
+  text-decoration:none;color:var(--ink-soft);
+  font-size:.95rem;padding:7px 10px;border-radius:7px;
+  border-left:2px solid transparent;
+  transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease;
+}
+.toc a .num{
+  font:600 11px 'IBM Plex Mono',monospace;color:var(--dc,var(--accent));
+  width:15px;flex:none;
+}
+.toc a:hover{background:var(--surface-2);color:var(--ink);transform:translateX(2px);}
+.toc a.active{background:var(--dt,var(--accent-tint));color:var(--dc,var(--accent-strong));border-left-color:var(--dc,var(--accent));font-weight:600;}
+.toc .weight{margin-left:auto;font:500 11px 'IBM Plex Mono',monospace;color:var(--ink-soft);}
+
+.toc-foot{
+  margin-top:22px;padding-top:16px;border-top:1px solid var(--line);
+  font-size:.85rem;color:var(--ink-soft);
+}
+
+.toc-toggle{display:none;}
+@media (max-width:880px){
+  .toc-toggle{
+    display:block;width:100%;text-align:left;
+    background:var(--surface);border:1px solid var(--line);border-radius:9px;
+    padding:12px 14px;font:600 .85rem 'Public Sans',sans-serif;color:var(--ink);
+    margin:18px 0 0;
+  }
+  .toc{display:none;position:static;}
+  .toc.open{display:block;animation:fadeUp .3s ease both;}
+}
+
+/* ---------- main content ---------- */
+main{padding:36px 0 80px;min-width:0;}
+
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease;}
+.reveal.in-view{opacity:1;transform:translateY(0);}
+
+.intro-card{
+  background:var(--surface);border:1px solid var(--line);border-radius:14px;
+  padding:24px 26px;box-shadow:var(--shadow);margin-bottom:44px;
+}
+.intro-card h2{font-size:1.3rem;margin-bottom:10px;color:var(--accent-strong);}
+.intro-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px;}
+@media (max-width:640px){.intro-grid{grid-template-columns:1fr;}}
+.stat{border-left:2px solid var(--accent);padding-left:12px;}
+.stat b{display:block;font:600 1.15rem 'Source Serif 4',serif;}
+.stat span{font-size:.9rem;color:var(--ink-soft);}
+
+.domain{
+  padding-top:56px;scroll-margin-top:20px;
+  border-top:1px solid var(--line);
+  --dc:var(--accent); --dt:var(--accent-tint);
+}
+.domain:first-of-type{border-top:none;}
+.domain.c1{--dc:var(--d1);--dt:var(--d1-tint);}
+.domain.c2{--dc:var(--d2);--dt:var(--d2-tint);}
+.domain.c3{--dc:var(--d3);--dt:var(--d3-tint);}
+.domain.c4{--dc:var(--d4);--dt:var(--d4-tint);}
+.domain.c5{--dc:var(--d5);--dt:var(--d5-tint);}
+.domain.c6{--dc:var(--d6);--dt:var(--d6-tint);}
+.domain.c7{--dc:var(--d7);--dt:var(--d7-tint);}
+.domain.c8{--dc:var(--d8);--dt:var(--d8-tint);}
+
+.domain-head{display:flex;gap:18px;align-items:flex-start;}
+.domain-badge{
+  flex:none;width:56px;height:56px;border-radius:50%;
+  background:var(--dc);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font:700 1.5rem 'Source Serif 4',serif;
+  box-shadow:0 4px 14px color-mix(in srgb, var(--dc) 45%, transparent);
+  opacity:0;transform:scale(.3) rotate(-25deg);
+  transition:transform .55s cubic-bezier(.34,1.56,.64,1),opacity .4s ease;
+}
+.domain.in-view .domain-badge{opacity:1;transform:scale(1) rotate(0deg);}
+.domain-head h2{font-size:1.55rem;color:var(--dc);}
+.domain-weight{
+  font:600 .88rem 'IBM Plex Mono',monospace;color:var(--dc);
+  background:var(--dt);padding:3px 9px;border-radius:5px;
+  display:inline-block;margin-top:6px;
+}
+.plain{
+  margin:20px 0 26px;padding:16px 18px;
+  background:var(--dt);border-radius:10px;border-left:3px solid var(--dc);
+  font-size:1.18rem;color:var(--ink);
+}
+.plain b{color:var(--dc);}
+
+.topics{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;align-items:start;}
+.topic{
+  background:var(--surface);border:1px solid var(--line);border-radius:11px;
+  padding:16px 18px;
+  opacity:0;transform:translateY(16px);
+  transition:transform .45s cubic-bezier(.22,1,.36,1),box-shadow .2s ease,border-color .2s ease,opacity .45s ease;
+}
+.domain.in-view .topic{opacity:1;transform:translateY(0);}
+.topic:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--dc);}
+.topic h3{font-size:1.08rem;font-weight:700;font-family:'Public Sans',sans-serif;color:var(--dc);margin-bottom:8px;}
+.topic ul{color:var(--ink-soft);font-size:1.1rem;}
+.topic b{color:var(--ink);}
+.topic li::marker{color:var(--dc);}
+
+.terms{
+  margin-top:22px;display:flex;flex-wrap:wrap;gap:8px;
+}
+.term{
+  font-size:.95rem;background:var(--dt);border:1px solid color-mix(in srgb, var(--dc) 35%, var(--line));
+  padding:5px 10px;border-radius:20px;color:var(--dc);
+  transition:transform .15s ease;
+}
+.term:hover{transform:translateY(-2px);}
+.term b{font-weight:700;}
+
+.remember{
+  margin-top:22px;border:1px dashed var(--dc);border-radius:10px;
+  padding:14px 16px;font-size:1.08rem;color:var(--ink-soft);
+  background:var(--surface);
+}
+.remember b{color:var(--dc);}
+
+/* glossary + tips */
+.glossary dl{display:grid;grid-template-columns:1fr;gap:10px;}
+.glossary .row{display:grid;grid-template-columns:170px 1fr;gap:14px;padding:10px 0;border-bottom:1px solid var(--line);transition:background .2s ease;}
+.glossary .row:hover{background:var(--surface-2);}
+@media (max-width:640px){.glossary .row{grid-template-columns:1fr;gap:4px;}}
+.glossary dt{font-weight:700;font-family:'IBM Plex Mono',monospace;font-size:.82rem;color:var(--accent-strong);}
+.glossary dd{margin:0;color:var(--ink-soft);font-size:1.08rem;}
+.glossary dd b{color:var(--ink);}
+
+.tips ul{margin:0;padding-left:20px;color:var(--ink-soft);font-size:1.12rem;display:flex;flex-direction:column;gap:10px;}
+.tips li b{color:var(--accent-strong);}
+.tips li::marker{color:var(--gold);}
+
+.faq{display:flex;flex-direction:column;gap:12px;margin-top:20px;}
+.faq-item{
+  background:var(--surface);border:1px solid var(--line);border-radius:11px;
+  overflow:hidden;
+}
+.faq-item summary{
+  list-style:none;cursor:pointer;padding:16px 20px;
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  font-family:'Public Sans',sans-serif;font-weight:700;font-size:1.05rem;color:var(--ink);
+}
+.faq-item summary::-webkit-details-marker{display:none;}
+.faq-item summary::after{
+  content:'+';flex:none;font:400 1.4rem 'Source Serif 4',serif;color:var(--accent);
+  transition:transform .25s ease;
+}
+.faq-item[open] summary::after{transform:rotate(45deg);}
+.faq-item summary:hover{color:var(--accent-strong);}
+.faq-item p{margin:0;padding:0 20px 18px;color:var(--ink-soft);font-size:1.02rem;}
+
+footer.note{
+  margin-top:60px;padding-top:20px;border-top:1px solid var(--line);
+  font-size:.78rem;color:var(--ink-soft);
+}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(14px);}
+  to{opacity:1;transform:translateY(0);}
+}
+@keyframes shimmer{
+  from{background-position:0% 50%;}
+  to{background-position:100% 50%;}
+}
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <div class="hero">
+    <span class="eyebrow">Study Guide · Plain-Language Edition</span>
+    <h1>CISSP in Plain English</h1>
+    <p class="lede">A simplified walk-through of the eight official (ISC)² CBK domains — what each one actually means, in everyday words, with the <b>key terms</b> you need to recognize.</p>
+    <div class="hero-meta">
+      <div><strong>8</strong>domains covered</div>
+      <div><strong>100&ndash;150</strong>exam questions</div>
+      <div><strong>3 hrs</strong>exam length</div>
+      <div><strong>700 / 1000</strong>passing score</div>
+    </div>
+  </div>
+
+  <nav class="toc" id="toc">
+    <div class="toc-title">Contents</div>
+    <ol>
+      <li><a href="#start"><span class="num">00</span>What is CISSP?</a></li>
+      <li><a href="#d1" data-c="1"><span class="num">01</span>Security &amp; Risk Mgmt<span class="weight">15%</span></a></li>
+      <li><a href="#d2" data-c="2"><span class="num">02</span>Asset Security<span class="weight">10%</span></a></li>
+      <li><a href="#d3" data-c="3"><span class="num">03</span>Architecture &amp; Engineering<span class="weight">13%</span></a></li>
+      <li><a href="#d4" data-c="4"><span class="num">04</span>Network Security<span class="weight">13%</span></a></li>
+      <li><a href="#d5" data-c="5"><span class="num">05</span>Identity &amp; Access Mgmt<span class="weight">13%</span></a></li>
+      <li><a href="#d6" data-c="6"><span class="num">06</span>Assessment &amp; Testing<span class="weight">12%</span></a></li>
+      <li><a href="#d7" data-c="7"><span class="num">07</span>Security Operations<span class="weight">13%</span></a></li>
+      <li><a href="#d8" data-c="8"><span class="num">08</span>Software Dev Security<span class="weight">11%</span></a></li>
+      <li><a href="#glossary"><span class="num">09</span>Glossary</a></li>
+      <li><a href="#tips"><span class="num">10</span>Study Tips</a></li>
+      <li><a href="#faq"><span class="num">11</span>FAQs</a></li>
+    </ol>
+    <div class="toc-foot">Based on the (ISC)² CISSP CBK — rewritten in simple language.</div>
+  </nav>
+  <button class="toc-toggle" id="tocToggle">☰ Contents</button>
+
+  <main>
+    <section id="start" class="intro-card reveal">
+      <h2>What is CISSP, really?</h2>
+      <p style="color:var(--ink-soft);max-width:66ch;margin:0 0 12px;">CISSP (Certified Information Systems Security Professional) certifies that you can design, build, and run a security program end to end — not just audit one. Where an auditor asks "can we trust this?", a CISSP holder answers a different question: <b>"how do we actually make this trustworthy?"</b></p>
+      <ul style="color:var(--ink-soft);max-width:66ch;">
+        <li>Designing security that fits the <b>business's risk appetite</b></li>
+        <li>Protecting data and systems across their <b>entire lifecycle</b></li>
+        <li>Building networks, architectures, and code that are <b>secure by design</b></li>
+        <li>Running the people, processes, and tools that <b>detect and respond</b> when something goes wrong</li>
+      </ul>
+      <p style="color:var(--ink-soft);max-width:66ch;margin:12px 0 0;">The exam is built around eight domains — eight different slices of the security practitioner's job.</p>
+      <div class="intro-grid">
+        <div class="stat"><b>Practitioner's job</b><span>Design, build, and operate — not just check</span></div>
+        <div class="stat"><b>Core idea</b><span>Confidentiality, Integrity, Availability of information</span></div>
+        <div class="stat"><b>Mindset</b><span>Defense in depth: layer controls so no single failure is fatal</span></div>
+      </div>
+    </section>
+
+    <!-- DOMAIN 1 -->
+    <section id="d1" class="domain c1 reveal">
+      <div class="domain-head">
+        <div class="domain-badge">1</div>
+        <div>
+          <h2>Security &amp; Risk Management</h2>
+          <span class="domain-weight">≈15% of exam</span>
+        </div>
+      </div>
+      <div class="plain"><b>In one line:</b> the foundation domain — policy, law, ethics, and risk decisions that every other domain is built on top of.</div>
+      <div class="topics">
+        <div class="topic"><h3>CIA triad &amp; governance</h3><ul>
+          <li><b>Confidentiality, Integrity, Availability</b> — the three things every control ultimately protects</li>
+          <li>Security governance ties the program to <b>business objectives</b>, with policies, standards, and procedures cascading down from senior management</li>
+        </ul></div>
+        <div class="topic"><h3>Legal, regulatory &amp; compliance</h3><ul>
+          <li>Laws differ by country — <b>GDPR</b>, sector rules, intellectual property, contract law</li>
+          <li>Understanding <b>civil vs. criminal vs. regulatory</b> liability shapes how incidents are handled</li>
+        </ul></div>
+        <div class="topic"><h3>Risk management</h3><ul>
+          <li>Identify assets and threats, assess likelihood and impact, then <b>avoid, mitigate, transfer, or accept</b> the risk</li>
+          <li>Guided by the organization's <b>risk appetite</b> and <b>risk tolerance</b></li>
+        </ul></div>
+        <div class="topic"><h3>Business continuity basics</h3><ul>
+          <li>BCP planning starts here with a <b>Business Impact Analysis (BIA)</b></li>
+          <li>Domain 7 later covers actually executing the plan during a disruption</li>
+        </ul></div>
+        <div class="topic"><h3>Personnel security &amp; training</h3><ul>
+          <li>Background checks, onboarding/offboarding, and <b>security-awareness training</b> reduce human-factor risk</li>
+          <li>Employees are often the weakest link — training is a control, not an afterthought</li>
+        </ul></div>
+        <div class="topic"><h3>Threat modeling &amp; supply chain</h3><ul>
+          <li><b style="color:var(--new);">Threat modeling</b> (e.g. STRIDE) identifies how a system could be attacked before it's built</li>
+          <li><b style="color:var(--new);">Supply-chain risk management</b> — vetting vendors and third-party software, since a breach anywhere in the chain becomes your breach</li>
+        </ul></div>
+      </div>
+      <div class="terms">
+        <span class="term"><b>CIA triad</b> — confidentiality, integrity, availability</span>
+        <span class="term"><b>Risk appetite</b> — how much risk is acceptable</span>
+        <span class="term"><b>Due diligence</b> — reasonable care taken before acting</span>
+        <span class="term"><b>BIA</b> — business impact analysis</span>
+      </div>
+      <div class="remember"><b>Remember it as:</b> the constitution of the whole CBK — the policy and risk decisions that every other domain has to obey.</div>
+    </section>
+
+    <!-- DOMAIN 2 -->
+    <section id="d2" class="domain c2 reveal">
+      <div class="domain-head">
+        <div class="domain-badge">2</div>
+        <div>
+          <h2>Asset Security</h2>
+          <span class="domain-weight">≈10% of exam</span>
+        </div>
+      </div>
+      <div class="plain"><b>In one line:</b> knowing what data and assets you own, labeling them correctly, and protecting each one appropriately across its entire life.</div>
+      <div class="topics">
+        <div class="topic"><h3>Classification &amp; ownership</h3><ul>
+          <li>Data gets labeled — e.g. <b>Public, Internal, Confidential, Restricted</b> — so everyone knows how carefully to handle it</li>
+          <li>Every asset needs a named <b>owner</b> accountable for its protection</li>
+        </ul></div>
+        <div class="topic"><h3>Data roles</h3><ul>
+          <li><b>Owner</b> decides classification and access rules</li>
+          <li><b>Custodian</b> handles day-to-day technical protection (backups, encryption)</li>
+          <li><b>Steward</b> ensures data quality and proper use</li>
+        </ul></div>
+        <div class="topic"><h3>Data lifecycle</h3><ul>
+          <li>Create → store → use → share → archive → <b>destroy</b></li>
+          <li>Protection requirements can change at each stage — data in transit needs different controls than data at rest</li>
+        </ul></div>
+        <div class="topic"><h3>Protection controls</h3><ul>
+          <li><b>Encryption at rest and in transit</b>, access controls, and backups</li>
+          <li><b style="color:var(--new);">DLP (Data Loss Prevention)</b> tools stop sensitive data leaving the organization through email, USB, or uploads</li>
+        </ul></div>
+        <div class="topic"><h3>Retention &amp; disposal</h3><ul>
+          <li>Keep data only as long as legally/operationally required — a <b>retention policy</b></li>
+          <li>Secure disposal (degaussing, shredding, cryptographic erasure) prevents <b>data remanence</b> — recoverable traces left after deletion</li>
+        </ul></div>
+      </div>
+      <div class="terms">
+        <span class="term"><b>Data classification</b> — sensitivity labeling</span>
+        <span class="term"><b>Data remanence</b> — residual data after "deletion"</span>
+        <span class="term"><b>DLP</b> — data loss prevention</span>
+        <span class="term"><b>Data custodian</b> — handles technical protection</span>
+      </div>
+      <div class="remember"><b>Remember it as:</b> label it, own it, protect it, and dispose of it properly when it's no longer needed.</div>
+    </section>
+
+    <!-- DOMAIN 3 -->
+    <section id="d3" class="domain c3 reveal">
+      <div class="domain-head">
+        <div class="domain-badge">3</div>
+        <div>
+          <h2>Security Architecture &amp; Engineering</h2>
+          <span class="domain-weight">≈13% of exam</span>
+        </div>
+      </div>
+      <div class="plain"><b>In one line:</b> designing systems, cryptography, and physical spaces so they're secure by construction — not patched after the fact.</div>
+      <div class="topics">
+        <div class="topic"><h3>Security models</h3><ul>
+          <li><b>Bell-LaPadula</b> — protects confidentiality ("no read up, no write down")</li>
+          <li><b>Biba</b> — protects integrity (the mirror-image opposite)</li>
+          <li>These formal models underpin how access-control systems are designed</li>
+        </ul></div>
+        <div class="topic"><h3>Secure design principles</h3><ul>
+          <li><b>Defense in depth</b> — layer controls so one failure isn't fatal</li>
+          <li><b>Least privilege</b>, <b>fail secure</b>, and <b style="color:var(--new);">Zero Trust</b> — never trust by default, always verify</li>
+        </ul></div>
+        <div class="topic"><h3>Cryptography fundamentals</h3><ul>
+          <li><b>Symmetric</b> encryption (one shared key, fast) vs. <b>asymmetric</b> (public/private key pair)</li>
+          <li><b>Hashing</b> fingerprints data; <b>PKI</b> issues and manages the certificates that make trust scalable</li>
+        </ul></div>
+        <div class="topic"><h3>System &amp; hardware security</h3><ul>
+          <li><b>TPM</b> chips anchor trust in hardware; <b>secure boot</b> stops tampered firmware from loading</li>
+          <li>Virtualization and cloud introduce shared-tenancy risks that need their own controls</li>
+        </ul></div>
+        <div class="topic"><h3>Physical &amp; environmental security</h3><ul>
+          <li>Site design, fencing, badges, and <b>environmental controls</b> (fire suppression, HVAC, power) protect the physical layer</li>
+          <li>A perfect digital design still fails if someone can walk into the server room</li>
+        </ul></div>
+      </div>
+      <div class="terms">
+        <span class="term"><b>Bell-LaPadula</b> — confidentiality model</span>
+        <span class="term"><b>PKI</b> — public key infrastructure</span>
+        <span class="term"><b>TPM</b> — trusted platform module</span>
+        <span class="term"><b>Defense in depth</b> — layered controls</span>
+      </div>
+      <div class="remember"><b>Remember it as:</b> the engineering domain — building security into the blueprint, not bolting it on afterward.</div>
+    </section>
+
+    <!-- DOMAIN 4 -->
+    <section id="d4" class="domain c4 reveal">
+      <div class="domain-head">
+        <div class="domain-badge">4</div>
+        <div>
+          <h2>Communication &amp; Network Security</h2>
+          <span class="domain-weight">≈13% of exam</span>
+        </div>
+      </div>
+      <div class="plain"><b>In one line:</b> how data moves safely between systems — and how to stop it being intercepted, altered, or blocked along the way.</div>
+      <div class="topics">
+        <div class="topic"><h3>Network architecture</h3><ul>
+          <li>The <b>OSI</b> (7-layer) and <b>TCP/IP</b> models frame where each protocol and attack operates</li>
+          <li><b>Segmentation</b> and <b>VLANs</b> stop a breach in one zone from spreading everywhere</li>
+        </ul></div>
+        <div class="topic"><h3>Secure network components</h3><ul>
+          <li><b>Firewalls</b> filter traffic; <b>IDS/IPS</b> detect and block attacks in progress</li>
+          <li>Routers, switches, and proxies each need their own hardening baseline</li>
+        </ul></div>
+        <div class="topic"><h3>Secure communication channels</h3><ul>
+          <li><b>VPNs</b> tunnel traffic securely across untrusted networks</li>
+          <li><b>TLS</b> secures web traffic in transit; email and voice need their own protections too</li>
+        </ul></div>
+        <div class="topic"><h3>Wireless security</h3><ul>
+          <li><b>WPA3</b> and strong authentication protect Wi-Fi from eavesdropping and rogue access points</li>
+          <li>Wireless removes the physical-cable barrier, so authentication matters even more</li>
+        </ul></div>
+        <div class="topic"><h3>Cloud &amp; converged communications</h3><ul>
+          <li><b style="color:var(--new);">SD-WAN</b> and <b style="color:var(--new);">SDN</b> centralize network control in software rather than per-device configuration</li>
+          <li>VoIP and unified communications bring their own eavesdropping and toll-fraud risks</li>
+        </ul></div>
+      </div>
+      <div class="terms">
+        <span class="term"><b>OSI model</b> — 7-layer networking reference</span>
+        <span class="term"><b>VPN</b> — virtual private network</span>
+        <span class="term"><b>TLS</b> — transport layer security</span>
+        <span class="term"><b>Segmentation</b> — isolating network zones</span>
+      </div>
+      <div class="remember"><b>Remember it as:</b> the plumbing domain — making sure data travels through pipes that can't be tapped, poisoned, or shut off.</div>
+    </section>
+
+    <!-- DOMAIN 5 -->
+    <section id="d5" class="domain c5 reveal">
+      <div class="domain-head">
+        <div class="domain-badge">5</div>
+        <div>
+          <h2>Identity &amp; Access Management (IAM)</h2>
+          <span class="domain-weight">≈13% of exam</span>
+        </div>
+      </div>
+      <div class="plain"><b>In one line:</b> proving who someone is, deciding what they're allowed to touch, and making sure access disappears the moment it shouldn't exist.</div>
+      <div class="topics">
+        <div class="topic"><h3>IAAA</h3><ul>
+          <li><b>Identification</b> — who are you claiming to be?</li>
+          <li><b>Authentication</b> — can you prove it? (password + phone code = <b>MFA</b>)</li>
+          <li><b>Authorization</b> — what are you allowed to do?</li>
+          <li><b>Accountability</b> — logging ties actions back to an identity</li>
+        </ul></div>
+        <div class="topic"><h3>Access control models</h3><ul>
+          <li><b>DAC</b> — owner decides access; <b>MAC</b> — a central policy decides, users can't override it</li>
+          <li><b>RBAC</b> — access tied to job role; <b>ABAC</b> — access decided by attributes (department, time, location) at request time</li>
+        </ul></div>
+        <div class="topic"><h3>Federated identity &amp; SSO</h3><ul>
+          <li><b>Single Sign-On</b> lets one login work across many systems</li>
+          <li><b>Federation</b> (SAML, OAuth, OIDC) extends trust across organizational boundaries without sharing passwords</li>
+        </ul></div>
+        <div class="topic"><h3>Provisioning lifecycle</h3><ul>
+          <li>Access should be granted on <b>joining</b>, adjusted on <b>role change</b>, and revoked on <b>departure</b> — every time, without exception</li>
+          <li>Periodic <b>access recertification</b> catches accounts that should've been removed already</li>
+        </ul></div>
+        <div class="topic"><h3>Privileged access &amp; zero trust</h3><ul>
+          <li><b style="color:var(--new);">PAM (Privileged Access Management)</b> — extra controls around admin accounts, since they cause the most damage if compromised</li>
+          <li><b style="color:var(--new);">Zero Trust</b> — verify every request continuously, regardless of network location</li>
+        </ul></div>
+      </div>
+      <div class="terms">
+        <span class="term"><b>MFA</b> — multi-factor authentication</span>
+        <span class="term"><b>SSO</b> — single sign-on</span>
+        <span class="term"><b>RBAC</b> — role-based access control</span>
+        <span class="term"><b>Least privilege</b> — minimum access needed</span>
+      </div>
+      <div class="remember"><b>Remember it as:</b> prove it, permit it, and take it away the second it's no longer needed.</div>
+    </section>
+
+    <!-- DOMAIN 6 -->
+    <section id="d6" class="domain c6 reveal">
+      <div class="domain-head">
+        <div class="domain-badge">6</div>
+        <div>
+          <h2>Security Assessment &amp; Testing</h2>
+          <span class="domain-weight">≈12% of exam</span>
+        </div>
+      </div>
+      <div class="plain"><b>In one line:</b> trust, but verify — constantly checking that the controls you built are actually working the way you think they are.</div>
+      <div class="topics">
+        <div class="topic"><h3>Assessment &amp; test strategies</h3><ul>
+          <li><b>Vulnerability scans</b> find known weaknesses automatically; <b>penetration tests</b> actively try to exploit them</li>
+          <li>Tests can be <b>black-box</b> (no inside knowledge), <b>white-box</b> (full knowledge), or <b>gray-box</b> (partial)</li>
+        </ul></div>
+        <div class="topic"><h3>Security control testing</h3><ul>
+          <li>Code review, interface testing, and <b>security-control assessments</b> confirm a control does what it claims</li>
+          <li>Results feed back into risk decisions — a failing control changes the risk picture</li>
+        </ul></div>
+        <div class="topic"><h3>Logs &amp; process data</h3><ul>
+          <li>Log review, synthetic transactions, and <b>KPI/KRI</b> tracking give ongoing visibility, not just point-in-time snapshots</li>
+        </ul></div>
+        <div class="topic"><h3>Audits</h3><ul>
+          <li><b>Internal audits</b> are run by the organization; <b>external/third-party audits</b> (e.g. <b>SOC 2</b>) are run independently for outside assurance</li>
+        </ul></div>
+        <div class="topic"><h3>Reporting &amp; analysis</h3><ul>
+          <li>Findings must translate into a report leadership can act on: <b>what's broken, how risky is it, what fixes it</b></li>
+        </ul></div>
+      </div>
+      <div class="terms">
+        <span class="term"><b>Pen test</b> — simulated attack</span>
+        <span class="term"><b>Vulnerability scan</b> — automated weakness check</span>
+        <span class="term"><b>SOC 2</b> — third-party assurance audit</span>
+        <span class="term"><b>Audit trail</b> — logged record of activity</span>
+      </div>
+      <div class="remember"><b>Remember it as:</b> the "prove it's actually working" domain — controls only count if they're tested.</div>
+    </section>
+
+    <!-- DOMAIN 7 -->
+    <section id="d7" class="domain c7 reveal">
+      <div class="domain-head">
+        <div class="domain-badge">7</div>
+        <div>
+          <h2>Security Operations</h2>
+          <span class="domain-weight">≈13% of exam</span>
+        </div>
+      </div>
+      <div class="plain"><b>In one line:</b> the day-to-day defense job — watching, responding, and recovering when something actually goes wrong.</div>
+      <div class="topics">
+        <div class="topic"><h3>Incident management</h3><ul>
+          <li>Standard lifecycle: <b>detect → respond → mitigate → report → recover → lessons learned</b></li>
+          <li>A documented <b>incident response plan</b> keeps the team fast and consistent under pressure</li>
+        </ul></div>
+        <div class="topic"><h3>Digital forensics</h3><ul>
+          <li>Evidence must preserve a <b>chain of custody</b> — an unbroken, documented trail — or it won't hold up in court</li>
+          <li>Forensic imaging captures evidence without altering the original</li>
+        </ul></div>
+        <div class="topic"><h3>Detective &amp; preventive measures</h3><ul>
+          <li><b>SIEM</b> tools correlate logs across the environment to spot attacks in real time</li>
+          <li>Preventive controls (firewalls, patching) reduce how often incidents happen at all</li>
+        </ul></div>
+        <div class="topic"><h3>BCP/DR execution</h3><ul>
+          <li>Domain 1 plans it; this domain <b>runs it</b> — activating recovery sites and restoring operations</li>
+          <li><b>RTO</b> (how fast to recover) and <b>RPO</b> (how much data loss is tolerable) drive the recovery strategy</li>
+        </ul></div>
+        <div class="topic"><h3>Change &amp; physical operations</h3><ul>
+          <li>Formal <b>change management</b> stops unreviewed changes from becoming the next incident</li>
+          <li>Guards, monitoring, and access logs round out physical security operations</li>
+        </ul></div>
+      </div>
+      <div class="terms">
+        <span class="term"><b>SIEM</b> — security event monitoring</span>
+        <span class="term"><b>Chain of custody</b> — evidence integrity trail</span>
+        <span class="term"><b>RTO / RPO</b> — recovery time / data-loss targets</span>
+        <span class="term"><b>IR plan</b> — incident response plan</span>
+      </div>
+      <div class="remember"><b>Remember it as:</b> the "keep the lights on and put out fires" domain — the most hands-on, operational part of the CBK.</div>
+    </section>
+
+    <!-- DOMAIN 8 -->
+    <section id="d8" class="domain c8 reveal">
+      <div class="domain-head">
+        <div class="domain-badge">8</div>
+        <div>
+          <h2>Software Development Security</h2>
+          <span class="domain-weight">≈11% of exam</span>
+        </div>
+      </div>
+      <div class="plain"><b>In one line:</b> baking security into the code itself throughout the build process, instead of trying to patch it in after release.</div>
+      <div class="topics">
+        <div class="topic"><h3>Secure SDLC</h3><ul>
+          <li>Security touchpoints at every phase: requirements, design, build, test, release, maintain</li>
+          <li><b style="color:var(--new);">DevSecOps</b> pushes security checks into the CI/CD pipeline itself, not a gate at the end</li>
+        </ul></div>
+        <div class="topic"><h3>Development methodologies</h3><ul>
+          <li><b>Waterfall</b> — sequential, plan-heavy; <b>Agile</b> — short iterative sprints with fast feedback</li>
+          <li>Security requirements need to be built into whichever methodology the team uses, not bolted on separately</li>
+        </ul></div>
+        <div class="topic"><h3>Common vulnerabilities</h3><ul>
+          <li>The <b>OWASP Top 10</b> catalogs the most frequent web-app risks — injection, broken access control, misconfiguration</li>
+          <li>Classic bugs like <b>buffer overflows</b> and <b>race conditions</b> still matter at the systems level</li>
+        </ul></div>
+        <div class="topic"><h3>Secure coding &amp; review</h3><ul>
+          <li><b>SAST</b> (static analysis) scans source code; <b>DAST</b> (dynamic analysis) tests the running application</li>
+          <li>Peer code review catches what tools and a single developer both miss</li>
+        </ul></div>
+        <div class="topic"><h3>Software supply chain</h3><ul>
+          <li>Open-source and third-party libraries can carry vulnerabilities straight into your product</li>
+          <li>A <b style="color:var(--new);">Software Bill of Materials (SBOM)</b> tracks exactly what components ship inside an application</li>
+        </ul></div>
+      </div>
+      <div class="terms">
+        <span class="term"><b>SDLC</b> — software development life cycle</span>
+        <span class="term"><b>OWASP Top 10</b> — common web-app risks</span>
+        <span class="term"><b>SAST / DAST</b> — static / dynamic code testing</span>
+        <span class="term"><b>SBOM</b> — software bill of materials</span>
+      </div>
+      <div class="remember"><b>Remember it as:</b> "measure twice, cut once" for code — catch the flaw in a code review, not in a breach report.</div>
+    </section>
+
+    <!-- GLOSSARY -->
+    <section id="glossary" class="domain glossary reveal">
+      <div class="domain-head" style="margin-bottom:20px;">
+        <div><h2 style="color:var(--accent-strong);">Quick Glossary</h2></div>
+      </div>
+      <dl>
+        <div class="row"><dt>CIA triad</dt><dd><b>Confidentiality, Integrity, Availability</b> — the three properties every control protects.</dd></div>
+        <div class="row"><dt>Control</dt><dd>Anything put in place to reduce risk — a policy, an approval step, a firewall, a lock.</dd></div>
+        <div class="row"><dt>Residual risk</dt><dd>The risk left over after controls are applied — <b>never zero</b>.</dd></div>
+        <div class="row"><dt>Least privilege</dt><dd>Give access only to what a person needs to do their job — nothing more.</dd></div>
+        <div class="row"><dt>Defense in depth</dt><dd>Layer multiple controls so a single failure doesn't cause a full breach.</dd></div>
+        <div class="row"><dt>Zero Trust</dt><dd>Never trust by default — verify every user and device on every request.</dd></div>
+        <div class="row"><dt>RTO / RPO</dt><dd>How fast to recover, and how much data you can afford to lose, after a disruption.</dd></div>
+        <div class="row"><dt>Chain of custody</dt><dd>An unbroken, documented trail proving evidence wasn't tampered with.</dd></div>
+      </dl>
+    </section>
+
+    <!-- TIPS -->
+    <section id="tips" class="domain tips reveal">
+      <div class="domain-head" style="margin-bottom:20px;">
+        <div><h2 style="color:var(--gold);">How to Study This</h2></div>
+      </div>
+      <ul>
+        <li>Read <b>domain by domain</b>, not front-to-back — each one is a self-contained "chapter."</li>
+        <li>For every concept, ask: <b>"how would I actually build or configure this?"</b> — CISSP rewards practical, best-practice thinking, not memorized trivia.</li>
+        <li>Learn the <b>acronyms cold</b> (CIA, MFA, RBAC, RTO, RPO, SIEM, SDLC) — they appear constantly, in both directions.</li>
+        <li>CISSP is famous for <b>"choose the best answer"</b> questions where several options are technically correct — always pick the one that best fits the <i>manager's</i> perspective, not the most technically clever fix.</li>
+        <li>Domains 1, 3, 4, 5, and 7 each carry double-digit weight — study them hardest, but don't skip the smaller domains since every domain has a minimum passing threshold.</li>
+      </ul>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="domain reveal">
+      <div class="domain-head" style="margin-bottom:20px;">
+        <div><h2 style="color:var(--accent-strong);">Frequently Asked Questions</h2></div>
+      </div>
+      <div class="faq">
+        <details class="faq-item" open>
+          <summary>Which domains do most people find the most difficult?</summary>
+          <p>Most candidates struggle most with <b>Domain 3 (Security Architecture &amp; Engineering)</b> because of its cryptography math and formal security models, and <b>Domain 4 (Communication &amp; Network Security)</b> because of its dense networking detail. <b>Domain 8 (Software Development Security)</b> is also tough for candidates without a coding background.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Do I need a technical/coding background to take CISSP?</summary>
+          <p>No — CISSP is intentionally broad and management-leaning rather than purely technical. A background in IT operations, risk, or audit works fine, though you'll need to build baseline familiarity with networking, cryptography, and secure coding concepts covered in Domains 3, 4, and 8.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How much work experience do I need?</summary>
+          <p>(ISC)² requires <b>5 years of cumulative, paid work experience in at least 2 of the 8 domains</b> (4 years if you hold a relevant four-year degree or an approved credential). If you pass the exam without enough experience yet, you become an <b>Associate of (ISC)²</b> and have up to 6 years to complete it.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How is the exam scored?</summary>
+          <p>Scores run from <b>0 to 1000</b>, and you need <b>700</b> to pass. The English exam uses <b>Computerized Adaptive Testing (CAT)</b> — each question's difficulty adjusts based on your previous answers, and the exam ends once the system is statistically confident in a pass/fail result (between 100 and 150 questions, in up to 3 hours).</p>
+        </details>
+        <details class="faq-item">
+          <summary>Which domain should I study first?</summary>
+          <p>Start with <b>Domain 1 (Security &amp; Risk Management)</b> — it establishes the governance, risk, and CIA-triad vocabulary that every other domain assumes you already know.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Do I need to renew the certification after passing?</summary>
+          <p>Yes — CISSP requires <b>120 Continuing Professional Education (CPE) credits every 3 years</b>, plus an annual maintenance fee, to keep the certification active.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is CISSP the same as CISA? How are they different?</summary>
+          <p>No — they're different certifications for different jobs, even though both come up in security careers:</p>
+          <p style="padding:0 20px 4px;"><b>Role:</b> CISSP is for <b>security practitioners</b> — designing, building, and running the security program itself. CISA is for <b>auditors</b> — checking whether systems, controls, and processes can be trusted.</p>
+          <p style="padding:0 20px 4px;"><b>Focus:</b> CISSP leans on deep technical security across its own 8 domains. CISA leans on audit process, evidence, governance, and risk across its 5 domains:</p>
+          <ul style="margin:0 0 4px;padding:0 20px 0 44px;color:var(--ink-soft);font-size:1rem;">
+            <li>Security &amp; Risk Management (this guide) — <i>overlaps with CISA Domain 2, Governance</i></li>
+            <li>Asset Security — <i>touches CISA Domain 5, Protecting Assets</i></li>
+            <li>Security Architecture &amp; Engineering — <i>touches CISA Domain 5</i></li>
+            <li>Communication &amp; Network Security — <i>overlaps with CISA Domain 5</i></li>
+            <li>Identity &amp; Access Management — <i>overlaps with CISA Domain 5</i></li>
+            <li>Security Assessment &amp; Testing — <i>overlaps with CISA Domain 1, Auditing Process</i></li>
+            <li>Security Operations — <i>overlaps with CISA Domain 4, Operations &amp; Resilience</i></li>
+            <li>Software Development Security — <i>overlaps with CISA Domain 3, Building Systems</i></li>
+          </ul>
+          <p style="padding:0 20px 4px;"><b>Issuer:</b> CISSP is issued by <b>(ISC)²</b>; CISA is issued by <b>ISACA</b>.</p>
+          <p style="padding:0 20px 4px;"><b>Typical roles after:</b> CISSP → security engineer, security architect, CISO track. CISA → IT auditor, compliance manager, risk analyst. Some professionals hold both — CISSP to speak the builder's language, CISA to speak the auditor's language.</p>
+          <p style="padding:0 20px 18px;"><b>Which is harder?</b> Most people rate <b>CISSP as the tougher exam</b> — it covers deep technical ground across 8 broad domains and is known for tricky "choose the <i>best</i> answer" questions. CISA is generally seen as more approachable if you think in terms of process and risk rather than deep technical detail.</p>
+        </details>
+      </div>
+    </section>
+
+    <footer class="note">Simplified study companion to the (ISC)² CISSP Common Body of Knowledge (CBK). For full technical detail, definitions, and exam-style practice questions, refer back to the official study guide and question bank.</footer>
+  </main>
+</div>
+
+<script>
+(function(){
+  var toggle = document.getElementById('tocToggle');
+  var toc = document.getElementById('toc');
+  if(toggle){
+    toggle.addEventListener('click', function(){
+      toc.classList.toggle('open');
+    });
+  }
+  var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+  var sections = links.map(function(a){ return document.querySelector(a.getAttribute('href')); }).filter(Boolean);
+  function onScroll(){
+    var pos = window.scrollY + 120;
+    var current = sections[0];
+    sections.forEach(function(sec){ if(sec.offsetTop <= pos) current = sec; });
+    links.forEach(function(a){ a.classList.remove('active'); });
+    if(current){
+      var idx = sections.indexOf(current);
+      if(links[idx]) links[idx].classList.add('active');
+    }
+  }
+  document.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          e.target.classList.add('in-view');
+          var topics = e.target.querySelectorAll('.topic');
+          topics.forEach(function(t,i){
+            t.style.transitionDelay = (i*70)+'ms';
+            setTimeout(function(){ t.style.transitionDelay=''; }, 600+i*70);
+          });
+          io.unobserve(e.target);
+        }
+      });
+    }, {threshold:0.08, rootMargin:'0px 0px -60px 0px'});
+    document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in-view'); });
+  }
+})();
+</script>
+</body>
+</html>

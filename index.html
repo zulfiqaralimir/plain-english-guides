@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Plain English Study Guides</title>
+<style>
+:root{color-scheme:light dark;}
+body{margin:0;}
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap');
+
+:root{
+  --bg:#EEF1EF;
+  --surface:#FFFFFF;
+  --ink:#182126;
+  --ink-soft:#4B5A5F;
+  --line:#CCD5D2;
+  --accent-strong:#124957;
+  --accent-tint:#DCEBEC;
+  --shadow:0 1px 2px rgba(18,73,87,.06), 0 6px 20px rgba(18,73,87,.06);
+  --cisa:#1E6B7A; --cisa-tint:#DCEBEC;
+  --cissp:#1B4F91; --cissp-tint:#DCE5F1;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#12181B; --surface:#1A2226;
+    --ink:#E8EDEC; --ink-soft:#A9B7B8; --line:#2C383C;
+    --accent-strong:#7FC4D0; --accent-tint:#1D3238;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+    --cisa:#4FA9B8; --cisa-tint:#1B3236;
+    --cissp:#5B8FD6; --cissp-tint:#1D2A3A;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12181B; --surface:#1A2226;
+  --ink:#E8EDEC; --ink-soft:#A9B7B8; --line:#2C383C;
+  --accent-strong:#7FC4D0; --accent-tint:#1D3238;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+  --cisa:#4FA9B8; --cisa-tint:#1B3236;
+  --cissp:#5B8FD6; --cissp-tint:#1D2A3A;
+}
+
+*{box-sizing:border-box;}
+html{font-size:19px;}
+body{
+  background:var(--bg);color:var(--ink);
+  font-family:'Public Sans',system-ui,-apple-system,sans-serif;
+  line-height:1.55;-webkit-font-smoothing:antialiased;
+  min-height:100dvh;display:flex;flex-direction:column;
+}
+h1,h2{font-family:'Source Serif 4',Georgia,'Times New Roman',serif;text-wrap:balance;margin:0;}
+
+.wrap{max-width:920px;margin:0 auto;padding:64px 24px 40px;flex:1;width:100%;}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font:600 12px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--accent-strong);background:var(--accent-tint);
+  padding:6px 10px;border-radius:5px;margin-bottom:18px;
+}
+h1{font-size:clamp(2rem,5vw,2.8rem);font-weight:700;max-width:16ch;}
+p.lede{margin-top:14px;max-width:56ch;font-size:1.1rem;color:var(--ink-soft);}
+
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:44px;}
+@media (max-width:640px){.cards{grid-template-columns:1fr;}}
+
+.card{
+  display:block;text-decoration:none;color:inherit;
+  background:var(--surface);border:1px solid var(--line);border-radius:16px;
+  padding:28px 26px;box-shadow:var(--shadow);
+  transition:transform .2s ease,border-color .2s ease;
+  --cc:var(--accent-strong);--ct:var(--accent-tint);
+}
+.card.cisa{--cc:var(--cisa);--ct:var(--cisa-tint);}
+.card.cissp{--cc:var(--cissp);--ct:var(--cissp-tint);}
+.card:hover{transform:translateY(-4px);border-color:var(--cc);}
+.card .tag{
+  display:inline-block;font:600 .78rem 'IBM Plex Mono',monospace;letter-spacing:.06em;
+  color:var(--cc);background:var(--ct);padding:4px 9px;border-radius:5px;margin-bottom:14px;
+}
+.card h2{font-size:1.5rem;color:var(--cc);}
+.card p{margin:10px 0 0;color:var(--ink-soft);font-size:1rem;}
+.card .go{margin-top:18px;font:600 .95rem 'Public Sans',sans-serif;color:var(--cc);}
+
+footer.note{
+  border-top:1px solid var(--line);padding:20px 24px;text-align:center;
+  font-size:.8rem;color:var(--ink-soft);
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="eyebrow">Study Guides · Plain-Language Edition</span>
+  <h1>Certification concepts, explained plainly</h1>
+  <p class="lede">Two exam guides that translate official review manuals into everyday language — the domains, the acronyms, and the terms you actually need to recognize.</p>
+
+  <div class="cards">
+    <a class="card cisa" href="cisa/">
+      <span class="tag">ISACA</span>
+      <h2>CISA in Plain English</h2>
+      <p>5 domains · auditing, governance, and protecting information assets.</p>
+      <span class="go">Open guide →</span>
+    </a>
+    <a class="card cissp" href="cissp/">
+      <span class="tag">(ISC)²</span>
+      <h2>CISSP in Plain English</h2>
+      <p>8 domains · designing, building, and running a security program.</p>
+      <span class="go">Open guide →</span>
+    </a>
+  </div>
+</div>
+<footer class="note">Simplified study companions to the official review manuals — refer back to them for full technical detail and practice questions.</footer>
+</body>
+</html>

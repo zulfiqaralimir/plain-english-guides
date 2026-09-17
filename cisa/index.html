@@ -1,0 +1,764 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>CISA in Plain English</title>
+<style>
+:root{color-scheme:light dark;}
+body{margin:0;}
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap');
+
+:root{
+  --bg:#EEF1EF;
+  --surface:#FFFFFF;
+  --surface-2:#E5E9E7;
+  --ink:#182126;
+  --ink-soft:#4B5A5F;
+  --line:#CCD5D2;
+  --accent:#1E6B7A;
+  --accent-strong:#124957;
+  --accent-tint:#DCEBEC;
+  --gold:#9C7A28;
+  --gold-tint:#F1E7CC;
+  --new:#1E7A3D;
+  --shadow:0 1px 2px rgba(18,73,87,.06), 0 6px 20px rgba(18,73,87,.06);
+
+  /* per-domain accent colors (light) */
+  --d1:#1E6B7A; --d1-tint:#DCEBEC;
+  --d2:#9C6B1F; --d2-tint:#F3E6CC;
+  --d3:#4A5FA5; --d3-tint:#E3E6F5;
+  --d4:#B4552E; --d4-tint:#F6E3D8;
+  --d5:#A02F4E; --d5-tint:#F5DEE5;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#12181B; --surface:#1A2226; --surface-2:#212B2F;
+    --ink:#E8EDEC; --ink-soft:#A9B7B8; --line:#2C383C;
+    --accent:#4FA9B8; --accent-strong:#7FC4D0; --accent-tint:#1D3238;
+    --gold:#D6B65C; --gold-tint:#332A16;
+    --new:#5FD489;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+    --d1:#4FA9B8; --d1-tint:#1B3236;
+    --d2:#D6A93F; --d2-tint:#332913;
+    --d3:#8C9EE8; --d3-tint:#232A45;
+    --d4:#E08858; --d4-tint:#3A2519;
+    --d5:#E0708C; --d5-tint:#3A1F27;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12181B; --surface:#1A2226; --surface-2:#212B2F;
+  --ink:#E8EDEC; --ink-soft:#A9B7B8; --line:#2C383C;
+  --accent:#4FA9B8; --accent-strong:#7FC4D0; --accent-tint:#1D3238;
+  --gold:#D6B65C; --gold-tint:#332A16;
+  --new:#5FD489;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+  --d1:#4FA9B8; --d1-tint:#1B3236;
+  --d2:#D6A93F; --d2-tint:#332913;
+  --d3:#8C9EE8; --d3-tint:#232A45;
+  --d4:#E08858; --d4-tint:#3A2519;
+  --d5:#E0708C; --d5-tint:#3A1F27;
+}
+
+*{box-sizing:border-box;}
+html{font-size:19px;}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Public Sans',system-ui,-apple-system,sans-serif;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{
+  font-family:'Source Serif 4',Georgia,'Times New Roman',serif;
+  text-wrap:balance;
+  color:var(--ink);
+  margin:0;
+}
+code, .mono{font-family:'IBM Plex Mono',ui-monospace,monospace;}
+a{color:var(--accent-strong);}
+ul{margin:0;padding-left:1.15em;}
+li{margin:0 0 6px;}
+li:last-child{margin-bottom:0;}
+li b, .plain b, .remember b{color:inherit;}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.001ms !important; transition-duration:.001ms !important;}
+}
+
+/* ---------- shell ---------- */
+.shell{
+  max-width:1560px;
+  margin:0 auto;
+  padding:0 32px;
+  display:grid;
+  grid-template-columns:230px minmax(0,1fr);
+  gap:40px;
+}
+@media (max-width:880px){
+  .shell{grid-template-columns:1fr;padding:0 20px;}
+}
+
+/* ---------- header / hero ---------- */
+.hero{
+  grid-column:1/-1;
+  padding:44px 0 30px;
+  border-bottom:1px solid var(--line);
+}
+.hero .eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font:600 12px/1 'IBM Plex Mono',monospace;
+  letter-spacing:.08em;text-transform:uppercase;
+  color:var(--accent-strong);
+  background:var(--accent-tint);
+  padding:6px 10px;border-radius:5px;
+  margin-bottom:16px;
+  animation:fadeUp .6s ease both;
+}
+.hero h1{
+  font-size:clamp(2rem,4.5vw,3rem);font-weight:700;max-width:16ch;
+  background:linear-gradient(110deg,var(--accent-strong),var(--d5) 45%,var(--d2) 70%,var(--accent-strong));
+  background-size:250% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:fadeUp .6s ease .1s both,shimmer 7s ease-in-out .8s infinite alternate;
+}
+.hero p.lede{
+  margin-top:14px;max-width:62ch;
+  font-size:1.15rem;color:var(--ink-soft);
+  animation:fadeUp .6s ease .2s both;
+}
+.hero-meta{
+  display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:24px;
+  animation:fadeUp .6s ease .3s both;
+}
+.hero-meta div{font-size:.95rem;color:var(--ink-soft);}
+.hero-meta strong{display:block;font:600 1.2rem 'Source Serif 4',serif;color:var(--ink);}
+
+/* ---------- sidebar / toc ---------- */
+.toc{
+  position:sticky;top:20px;align-self:start;
+  padding:18px 0 40px;
+}
+.toc-title{
+  font:600 11px/1 'IBM Plex Mono',monospace;
+  letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink-soft);margin-bottom:12px;
+}
+.toc ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:3px;}
+.toc a{
+  display:flex;align-items:center;gap:10px;
+  text-decoration:none;color:var(--ink-soft);
+  font-size:.95rem;padding:7px 10px;border-radius:7px;
+  border-left:2px solid transparent;
+  transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease;
+}
+.toc a .num{
+  font:600 11px 'IBM Plex Mono',monospace;color:var(--dc,var(--accent));
+  width:15px;flex:none;
+}
+.toc a:hover{background:var(--surface-2);color:var(--ink);transform:translateX(2px);}
+.toc a.active{background:var(--dt,var(--accent-tint));color:var(--dc,var(--accent-strong));border-left-color:var(--dc,var(--accent));font-weight:600;}
+.toc .weight{margin-left:auto;font:500 11px 'IBM Plex Mono',monospace;color:var(--ink-soft);}
+
+.toc-foot{
+  margin-top:22px;padding-top:16px;border-top:1px solid var(--line);
+  font-size:.85rem;color:var(--ink-soft);
+}
+
+.toc-toggle{display:none;}
+@media (max-width:880px){
+  .toc-toggle{
+    display:block;width:100%;text-align:left;
+    background:var(--surface);border:1px solid var(--line);border-radius:9px;
+    padding:12px 14px;font:600 .85rem 'Public Sans',sans-serif;color:var(--ink);
+    margin:18px 0 0;
+  }
+  .toc{display:none;position:static;}
+  .toc.open{display:block;animation:fadeUp .3s ease both;}
+}
+
+/* ---------- main content ---------- */
+main{padding:36px 0 80px;min-width:0;}
+
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease;}
+.reveal.in-view{opacity:1;transform:translateY(0);}
+
+.intro-card{
+  background:var(--surface);border:1px solid var(--line);border-radius:14px;
+  padding:24px 26px;box-shadow:var(--shadow);margin-bottom:44px;
+}
+.intro-card h2{font-size:1.3rem;margin-bottom:10px;color:var(--accent-strong);}
+.intro-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px;}
+@media (max-width:640px){.intro-grid{grid-template-columns:1fr;}}
+.stat{border-left:2px solid var(--accent);padding-left:12px;}
+.stat b{display:block;font:600 1.15rem 'Source Serif 4',serif;}
+.stat span{font-size:.9rem;color:var(--ink-soft);}
+
+.domain{
+  padding-top:56px;scroll-margin-top:20px;
+  border-top:1px solid var(--line);
+  --dc:var(--accent); --dt:var(--accent-tint);
+}
+.domain:first-of-type{border-top:none;}
+.domain.c1{--dc:var(--d1);--dt:var(--d1-tint);}
+.domain.c2{--dc:var(--d2);--dt:var(--d2-tint);}
+.domain.c3{--dc:var(--d3);--dt:var(--d3-tint);}
+.domain.c4{--dc:var(--d4);--dt:var(--d4-tint);}
+.domain.c5{--dc:var(--d5);--dt:var(--d5-tint);}
+
+.domain-head{display:flex;gap:18px;align-items:flex-start;}
+.domain-badge{
+  flex:none;width:56px;height:56px;border-radius:50%;
+  background:var(--dc);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font:700 1.5rem 'Source Serif 4',serif;
+  box-shadow:0 4px 14px color-mix(in srgb, var(--dc) 45%, transparent);
+  opacity:0;transform:scale(.3) rotate(-25deg);
+  transition:transform .55s cubic-bezier(.34,1.56,.64,1),opacity .4s ease;
+}
+.domain.in-view .domain-badge{opacity:1;transform:scale(1) rotate(0deg);}
+.domain-head h2{font-size:1.55rem;color:var(--dc);}
+.domain-weight{
+  font:600 .88rem 'IBM Plex Mono',monospace;color:var(--dc);
+  background:var(--dt);padding:3px 9px;border-radius:5px;
+  display:inline-block;margin-top:6px;
+}
+.plain{
+  margin:20px 0 26px;padding:16px 18px;
+  background:var(--dt);border-radius:10px;border-left:3px solid var(--dc);
+  font-size:1.18rem;color:var(--ink);
+}
+.plain b{color:var(--dc);}
+
+.topics{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;align-items:start;}
+.topic{
+  background:var(--surface);border:1px solid var(--line);border-radius:11px;
+  padding:16px 18px;
+  opacity:0;transform:translateY(16px);
+  transition:transform .45s cubic-bezier(.22,1,.36,1),box-shadow .2s ease,border-color .2s ease,opacity .45s ease;
+}
+.domain.in-view .topic{opacity:1;transform:translateY(0);}
+.topic:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--dc);}
+.topic h3{font-size:1.08rem;font-weight:700;font-family:'Public Sans',sans-serif;color:var(--dc);margin-bottom:8px;}
+.topic ul{color:var(--ink-soft);font-size:1.1rem;}
+.topic b{color:var(--ink);}
+.topic li::marker{color:var(--dc);}
+
+.terms{
+  margin-top:22px;display:flex;flex-wrap:wrap;gap:8px;
+}
+.term{
+  font-size:.95rem;background:var(--dt);border:1px solid color-mix(in srgb, var(--dc) 35%, var(--line));
+  padding:5px 10px;border-radius:20px;color:var(--dc);
+  transition:transform .15s ease;
+}
+.term:hover{transform:translateY(-2px);}
+.term b{font-weight:700;}
+
+.remember{
+  margin-top:22px;border:1px dashed var(--dc);border-radius:10px;
+  padding:14px 16px;font-size:1.08rem;color:var(--ink-soft);
+  background:var(--surface);
+}
+.remember b{color:var(--dc);}
+
+/* glossary + tips */
+.glossary dl{display:grid;grid-template-columns:1fr;gap:10px;}
+.glossary .row{display:grid;grid-template-columns:170px 1fr;gap:14px;padding:10px 0;border-bottom:1px solid var(--line);transition:background .2s ease;}
+.glossary .row:hover{background:var(--surface-2);}
+@media (max-width:640px){.glossary .row{grid-template-columns:1fr;gap:4px;}}
+.glossary dt{font-weight:700;font-family:'IBM Plex Mono',monospace;font-size:.82rem;color:var(--accent-strong);}
+.glossary dd{margin:0;color:var(--ink-soft);font-size:1.08rem;}
+.glossary dd b{color:var(--ink);}
+
+.tips ul{margin:0;padding-left:20px;color:var(--ink-soft);font-size:1.12rem;display:flex;flex-direction:column;gap:10px;}
+.tips li b{color:var(--accent-strong);}
+.tips li::marker{color:var(--gold);}
+
+.faq{display:flex;flex-direction:column;gap:12px;margin-top:20px;}
+.faq-item{
+  background:var(--surface);border:1px solid var(--line);border-radius:11px;
+  overflow:hidden;
+}
+.faq-item summary{
+  list-style:none;cursor:pointer;padding:16px 20px;
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  font-family:'Public Sans',sans-serif;font-weight:700;font-size:1.05rem;color:var(--ink);
+}
+.faq-item summary::-webkit-details-marker{display:none;}
+.faq-item summary::after{
+  content:'+';flex:none;font:400 1.4rem 'Source Serif 4',serif;color:var(--accent);
+  transition:transform .25s ease;
+}
+.faq-item[open] summary::after{transform:rotate(45deg);}
+.faq-item summary:hover{color:var(--accent-strong);}
+.faq-item p{margin:0;padding:0 20px 18px;color:var(--ink-soft);font-size:1.02rem;}
+
+footer.note{
+  margin-top:60px;padding-top:20px;border-top:1px solid var(--line);
+  font-size:.78rem;color:var(--ink-soft);
+}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(14px);}
+  to{opacity:1;transform:translateY(0);}
+}
+@keyframes shimmer{
+  from{background-position:0% 50%;}
+  to{background-position:100% 50%;}
+}
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <div class="hero">
+    <span class="eyebrow">Study Guide · Plain-Language Edition</span>
+    <h1>CISA in Plain English</h1>
+    <p class="lede">A simplified walk-through of the five official CISA domains — what each one actually means, in everyday words, with the <b>key terms</b> you need to recognize.</p>
+    <div class="hero-meta">
+      <div><strong>5</strong>domains covered</div>
+      <div><strong>150</strong>exam questions</div>
+      <div><strong>4 hrs</strong>exam length</div>
+      <div><strong>450 / 800</strong>passing score</div>
+    </div>
+  </div>
+
+  <nav class="toc" id="toc">
+    <div class="toc-title">Contents</div>
+    <ol>
+      <li><a href="#start"><span class="num">00</span>What is CISA?</a></li>
+      <li><a href="#d1" data-c="1"><span class="num">01</span>Auditing Process<span class="weight">18%</span></a></li>
+      <li><a href="#d2" data-c="2"><span class="num">02</span>Governance of IT<span class="weight">18%</span></a></li>
+      <li><a href="#d3" data-c="3"><span class="num">03</span>Building Systems<span class="weight">12%</span></a></li>
+      <li><a href="#d4" data-c="4"><span class="num">04</span>Operations &amp; Resilience<span class="weight">26%</span></a></li>
+      <li><a href="#d5" data-c="5"><span class="num">05</span>Protecting Assets<span class="weight">26%</span></a></li>
+      <li><a href="#glossary"><span class="num">06</span>Glossary</a></li>
+      <li><a href="#tips"><span class="num">07</span>Study Tips</a></li>
+      <li><a href="#faq"><span class="num">08</span>FAQs</a></li>
+    </ol>
+    <div class="toc-foot">Based on the CISA Review Manual, 28th Edition — rewritten in simple language.</div>
+  </nav>
+  <button class="toc-toggle" id="tocToggle">☰ Contents</button>
+
+  <main>
+    <section id="start" class="intro-card reveal">
+      <h2>What is CISA, really?</h2>
+      <p style="color:var(--ink-soft);max-width:66ch;margin:0 0 12px;">CISA (Certified Information Systems Auditor) certifies that you can look at a company's computer systems and answer one question honestly: <b>"Can we trust this?"</b></p>
+      <ul style="color:var(--ink-soft);max-width:66ch;">
+        <li>Checking whether <b>data is accurate</b></li>
+        <li>Checking whether <b>systems are secure</b></li>
+        <li>Checking whether <b>IT is run responsibly</b></li>
+        <li>Checking whether the business <b>could recover from a disaster</b></li>
+      </ul>
+      <p style="color:var(--ink-soft);max-width:66ch;margin:12px 0 0;">The exam is built around five domains — five different "trust questions" an auditor asks.</p>
+      <div class="intro-grid">
+        <div class="stat"><b>Auditor's job</b><span>Check, don't fix — report facts with evidence</span></div>
+        <div class="stat"><b>Core idea</b><span>Confidentiality, Integrity, Availability of information</span></div>
+        <div class="stat"><b>Mindset</b><span>Risk-based: spend attention where the damage would be worst</span></div>
+      </div>
+    </section>
+
+    <!-- DOMAIN 1 -->
+    <section id="d1" class="domain c1 reveal">
+      <div class="domain-head">
+        <div class="domain-badge">1</div>
+        <div>
+          <h2>The Auditing Process</h2>
+          <span class="domain-weight">≈18% of exam</span>
+        </div>
+      </div>
+      <div class="plain"><b>In one line:</b> the rulebook for planning an audit, gathering proof, and reporting findings fairly — so two different auditors would reach the same conclusion.</div>
+      <div class="topics">
+        <div class="topic"><h3>Audit standards &amp; ethics</h3><ul>
+          <li>ISACA sets standards auditors must follow — like <b>independence</b> and <b>due care</b></li>
+          <li>Keeps audits consistent and trustworthy, no matter who performs them</li>
+        </ul></div>
+        <div class="topic"><h3>Risk-based planning</h3><ul>
+          <li>You can't audit everything every year</li>
+          <li>List all the "auditable things" — the <b>audit universe</b></li>
+          <li>Rank them by risk, then <b>audit the riskiest areas first</b></li>
+        </ul></div>
+        <div class="topic"><h3>Gathering evidence</h3><ul>
+          <li>Findings must be backed by evidence that is <b>S</b>ufficient, <b>R</b>eliable, <b>R</b>elevant, <b>U</b>seful — <b>SRRU</b></li>
+          <li>Methods: interviews, watching a process happen, inspecting documents, re-doing a calculation yourself</li>
+        </ul></div>
+        <div class="topic"><h3>Sampling</h3><ul>
+          <li>Checking every transaction is too slow — auditors test a <b>sample</b></li>
+          <li><b>Statistical sampling</b> uses math to pick objectively; <b>judgmental sampling</b> relies on the auditor's experience</li>
+        </ul></div>
+        <div class="topic"><h3>Reporting &amp; follow-up</h3><ul>
+          <li>A good report states the <b>finding</b>, the <b>risk</b>, and a practical <b>fix</b></li>
+          <li>The auditor returns later to confirm the fix actually happened</li>
+        </ul></div>
+        <div class="topic"><h3>Agile auditing &amp; AI</h3><ul>
+          <li><b style="color:var(--new);">Agile auditing</b> works in short cycles alongside agile development teams instead of one long audit at the end</li>
+          <li><b style="color:var(--new);">AI/ML tools</b> are increasingly used to scan huge datasets for anomalies — but the auditor must still question how the algorithm reached its result before trusting it</li>
+        </ul></div>
+      </div>
+      <div class="terms">
+        <span class="term"><b>Materiality</b> — how big/important an issue is</span>
+        <span class="term"><b>Independence</b> — no conflict of interest</span>
+        <span class="term"><b>CAATs</b> — software that helps test data</span>
+        <span class="term"><b>Audit charter</b> — document giving auditors authority</span>
+      </div>
+      <div class="remember"><b>Remember it as:</b> a detective who plans the case (risk-based plan), collects proof (evidence), and writes an honest report (findings) — never fixes the crime scene themselves.</div>
+    </section>
+
+    <!-- DOMAIN 2 -->
+    <section id="d2" class="domain c2 reveal">
+      <div class="domain-head">
+        <div class="domain-badge">2</div>
+        <div>
+          <h2>Governance &amp; Management of IT</h2>
+          <span class="domain-weight">≈18% of exam</span>
+        </div>
+      </div>
+      <div class="plain"><b>In one line:</b> is IT being steered toward business goals, with clear ownership, sensible risk-taking, and someone accountable when things go wrong?</div>
+      <div class="topics">
+        <div class="topic"><h3>Governance frameworks</h3><ul>
+          <li><b>COBIT</b> is ISACA's framework for governing and managing enterprise IT</li>
+          <li>Groups practices into goals like "align IT with the business" and "manage risk"</li>
+          <li>A checklist for running IT well — not a technical build standard</li>
+        </ul></div>
+        <div class="topic"><h3>Strategy &amp; structure</h3><ul>
+          <li>IT strategy should <b>support the business strategy</b>, not run off on its own</li>
+          <li>A <b>RACI</b> chart (Responsible, Accountable, Consulted, Informed) prevents "everyone assumed someone else was doing it"</li>
+          <li>The <b style="color:var(--new);">Three Lines Model</b>: operational management owns risk day to day (1st line), risk/compliance functions oversee it (2nd line), and internal audit independently checks both (3rd line)</li>
+        </ul></div>
+        <div class="topic"><h3>Segregation of duties</h3><ul>
+          <li>The person who <b>requests</b> a payment shouldn't also <b>approve</b> and <b>process</b> it</li>
+          <li>Splitting duties prevents one person from making <i>and</i> hiding a mistake or fraud</li>
+        </ul></div>
+        <div class="topic"><h3>Risk management</h3><ul>
+          <li>Identify what could go wrong; estimate likelihood and impact</li>
+          <li>Choose to <b>avoid</b>, <b>reduce</b>, <b>transfer</b> (e.g. insurance), or <b>accept</b> the risk</li>
+          <li>Guided by the organization's <b>risk appetite</b></li>
+        </ul></div>
+        <div class="topic"><h3>Performance &amp; resourcing</h3><ul>
+          <li><b>KPIs/KRIs</b> track whether IT delivers value and whether risk is creeping up</li>
+          <li>Also covers managing staff, vendors, contracts, and <b>SLAs</b> with outsourced providers</li>
+        </ul></div>
+      </div>
+      <div class="terms">
+        <span class="term"><b>COBIT</b> — ISACA's IT governance framework</span>
+        <span class="term"><b>Risk appetite</b> — how much risk is acceptable</span>
+        <span class="term"><b>SoD</b> — segregation of duties</span>
+        <span class="term"><b>SLA</b> — service-level agreement</span>
+      </div>
+      <div class="remember"><b>Remember it as:</b> the "management" chapter — who's in charge, who's watching risk, and whether IT is actually helping the business win.</div>
+    </section>
+
+    <!-- DOMAIN 3 -->
+    <section id="d3" class="domain c3 reveal">
+      <div class="domain-head">
+        <div class="domain-badge">3</div>
+        <div>
+          <h2>Building &amp; Buying Systems</h2>
+          <span class="domain-weight">≈12% of exam</span>
+        </div>
+      </div>
+      <div class="plain"><b>In one line:</b> when a company builds or buys a new system, was it planned, tested, and rolled out with proper controls — not rushed and hoped for the best?</div>
+      <div class="topics">
+        <div class="topic"><h3>Business case &amp; project management</h3><ul>
+          <li>Before coding starts: a <b>business case</b> (why build this?) and a <b>feasibility study</b></li>
+          <li>Projects run against a defined <b>scope, schedule, budget, and quality</b> target</li>
+          <li><b style="color:var(--new);">Function point analysis</b> estimates how big/costly a system will be by counting its inputs, outputs, and files — before a line of code is written</li>
+          <li>A <b style="color:var(--new);">Gantt chart</b> maps tasks against a timeline so schedule slippage is easy to spot</li>
+        </ul></div>
+        <div class="topic"><h3>Development approaches</h3><ul>
+          <li><b>Waterfall</b> moves step-by-step: requirements → design → build → test → launch</li>
+          <li><b>Agile</b> builds in short cycles (sprints) with frequent feedback</li>
+          <li><b style="color:var(--new);">DevOps/DevSecOps</b> automates build-test-release so code ships continuously — security gets baked into every step (DevSecOps) rather than checked only at the end</li>
+          <li>Neither is "correct" — the auditor checks the chosen approach was followed consistently</li>
+        </ul></div>
+        <div class="topic"><h3>Testing</h3><ul>
+          <li><b>Unit testing</b> — one small piece</li>
+          <li><b>Integration testing</b> — pieces working together</li>
+          <li><b>UAT</b> (User Acceptance Testing) — real users confirm it works before go-live</li>
+        </ul></div>
+        <div class="topic"><h3>Change &amp; configuration management</h3><ul>
+          <li>Every change should be <b>requested, reviewed, approved, tested, and documented</b></li>
+          <li>Prevents anyone quietly slipping an unauthorized change into production</li>
+        </ul></div>
+        <div class="topic"><h3>Application controls</h3><ul>
+          <li><b>Input controls</b> — reject bad data before it's saved</li>
+          <li><b>Processing controls</b> — calculations are correct</li>
+          <li><b>Output controls</b> — reports match what was processed</li>
+        </ul></div>
+      </div>
+      <div class="terms">
+        <span class="term"><b>SDLC</b> — system development life cycle</span>
+        <span class="term"><b>UAT</b> — user acceptance testing</span>
+        <span class="term"><b>Rollback plan</b> — how to undo a failed release</span>
+        <span class="term"><b>PIR</b> — post-implementation review</span>
+      </div>
+      <div class="remember"><b>Remember it as:</b> "measure twice, cut once" — the whole domain is about disciplined process from idea to go-live.</div>
+    </section>
+
+    <!-- DOMAIN 4 -->
+    <section id="d4" class="domain c4 reveal">
+      <div class="domain-head">
+        <div class="domain-badge">4</div>
+        <div>
+          <h2>Operations &amp; Business Resilience</h2>
+          <span class="domain-weight">≈26% of exam</span>
+        </div>
+      </div>
+      <div class="plain"><b>In one line:</b> the biggest domain — does IT run smoothly day-to-day, and can the business keep going (or bounce back fast) when something breaks?</div>
+      <div class="topics">
+        <div class="topic"><h3>Day-to-day IT operations</h3><ul>
+          <li>Job scheduling, capacity planning, and handling problems</li>
+          <li>An <b>incident</b> is a single disruption fixed quickly</li>
+          <li>A <b>problem</b> is the underlying root cause behind repeated incidents</li>
+        </ul></div>
+        <div class="topic"><h3>Data &amp; infrastructure</h3><ul>
+          <li>Database management and network basics</li>
+          <li>Risk of <b>end-user computing</b> — e.g. a critical spreadsheet built by one employee with no backup or review</li>
+          <li><b style="color:var(--new);">Shadow IT</b> — apps or cloud services staff adopt without IT's knowledge, bypassing every control that was supposed to protect company data</li>
+        </ul></div>
+        <div class="topic"><h3>Business Impact Analysis (BIA)</h3><ul>
+          <li>Before planning recovery, know what actually matters</li>
+          <li>Which systems, if down, would hurt the business fastest and most</li>
+          <li>How long the business can survive without each one</li>
+        </ul></div>
+        <div class="topic"><h3>BCP &amp; DRP</h3><ul>
+          <li><b>BCP</b> keeps the whole business running during a disruption</li>
+          <li><b>DRP</b> restores IT systems specifically</li>
+          <li><b>RTO</b> (Recovery Time Objective) — how fast must it be back up?</li>
+          <li><b>RPO</b> (Recovery Point Objective) — how much data loss can we tolerate?</li>
+        </ul></div>
+        <div class="topic"><h3>Alternate sites &amp; backups</h3><ul>
+          <li><b>Hot site</b> — ready to take over in minutes</li>
+          <li><b>Warm site</b> — needs some setup</li>
+          <li><b>Cold site</b> — empty shell needing days</li>
+          <li>Regular, <b>tested</b> backups make recovery actually possible</li>
+          <li>The <b style="color:var(--new);">3-2-1 rule</b>: keep 3 copies of data, on 2 different media types, with 1 copy offsite</li>
+        </ul></div>
+      </div>
+      <div class="terms">
+        <span class="term"><b>RTO</b> — time to recover</span>
+        <span class="term"><b>RPO</b> — acceptable data loss window</span>
+        <span class="term"><b>BIA</b> — business impact analysis</span>
+        <span class="term"><b>Hot / warm / cold site</b> — recovery-readiness levels</span>
+      </div>
+      <div class="remember"><b>Remember it as:</b> "keep the lights on, and know exactly how to turn them back on fast if they go out."</div>
+    </section>
+
+    <!-- DOMAIN 5 -->
+    <section id="d5" class="domain c5 reveal">
+      <div class="domain-head">
+        <div class="domain-badge">5</div>
+        <div>
+          <h2>Protecting Information Assets</h2>
+          <span class="domain-weight">≈26% of exam</span>
+        </div>
+      </div>
+      <div class="plain"><b>In one line:</b> the security domain — keeping data and systems safe from people who shouldn't see, change, or destroy them.</div>
+      <div class="topics">
+        <div class="topic"><h3>The CIA triad</h3><ul>
+          <li><b>Confidentiality</b> — only the right people see it</li>
+          <li><b>Integrity</b> — data isn't altered without authorization</li>
+          <li><b>Availability</b> — it's there when needed</li>
+        </ul></div>
+        <div class="topic"><h3>Access control</h3><ul>
+          <li><b>Identification</b> — who are you?</li>
+          <li><b>Authentication</b> — can you prove it? (e.g. password + phone code = <b>MFA</b>)</li>
+          <li><b>Authorization</b> — what are you allowed to do?</li>
+          <li>Give people only the access they need — <b>least privilege</b></li>
+        </ul></div>
+        <div class="topic"><h3>Modern identity concepts</h3><ul>
+          <li><b style="color:var(--new);">Zero-Trust Architecture</b> — "never trust, always verify": no user or device is trusted by default, even inside the network</li>
+          <li><b style="color:var(--new);">Privileged Access Management (PAM)</b> — extra controls around admin-level accounts, since they can do the most damage if compromised</li>
+          <li><b style="color:var(--new);">Identity as a Service (IDaaS)</b> — outsourcing identity/login management to a cloud provider instead of running it in-house</li>
+        </ul></div>
+        <div class="topic"><h3>Network &amp; endpoint security</h3><ul>
+          <li><b>Firewalls</b> control what traffic gets in or out</li>
+          <li><b>IDS/IPS</b> watch for attacks</li>
+          <li><b>Segmentation</b> keeps a breach from spreading everywhere</li>
+          <li><b>Antivirus/EDR</b> protects individual devices</li>
+        </ul></div>
+        <div class="topic"><h3>Cryptography</h3><ul>
+          <li><b>Encryption</b> scrambles data so only the right key unlocks it</li>
+          <li><b>Hashing</b> creates a fingerprint to detect if data was changed</li>
+          <li><b>Digital signatures</b> prove who sent something, unaltered</li>
+        </ul></div>
+        <div class="topic"><h3>Monitoring, training &amp; response</h3><ul>
+          <li><b>Logging / SIEM</b> tools spot suspicious activity</li>
+          <li><b>Security-awareness training</b> reduces human error (e.g. phishing clicks)</li>
+          <li>An <b>incident response plan</b> defines what to do the moment something goes wrong</li>
+        </ul></div>
+      </div>
+      <div class="terms">
+        <span class="term"><b>CIA triad</b> — confidentiality, integrity, availability</span>
+        <span class="term"><b>MFA</b> — multi-factor authentication</span>
+        <span class="term"><b>Least privilege</b> — minimum access needed</span>
+        <span class="term"><b>SIEM</b> — security event monitoring tool</span>
+      </div>
+      <div class="remember"><b>Remember it as:</b> the "lock, alarm, and camera" domain — prevent, detect, and respond.</div>
+    </section>
+
+    <!-- GLOSSARY -->
+    <section id="glossary" class="domain glossary reveal">
+      <div class="domain-head" style="margin-bottom:20px;">
+        <div><h2 style="color:var(--accent-strong);">Quick Glossary</h2></div>
+      </div>
+      <dl>
+        <div class="row"><dt>Audit evidence</dt><dd>Proof behind every finding — must be <b>sufficient, reliable, relevant, useful</b>.</dd></div>
+        <div class="row"><dt>Control</dt><dd>Anything put in place to reduce risk — a policy, an approval step, a firewall, a lock.</dd></div>
+        <div class="row"><dt>Residual risk</dt><dd>The risk left over after controls are applied — <b>never zero</b>.</dd></div>
+        <div class="row"><dt>Due care / diligence</dt><dd>Doing what a reasonably careful professional would do in the same situation.</dd></div>
+        <div class="row"><dt>Segregation of duties</dt><dd>No single person controls a task start to finish, to prevent fraud or error.</dd></div>
+        <div class="row"><dt>RTO / RPO</dt><dd>How fast to recover, and how much data you can afford to lose, after a disruption.</dd></div>
+        <div class="row"><dt>Least privilege</dt><dd>Give access only to what a person needs to do their job — nothing more.</dd></div>
+        <div class="row"><dt>Root cause</dt><dd>The real underlying reason a problem keeps happening, not just its symptom.</dd></div>
+      </dl>
+    </section>
+
+    <!-- TIPS -->
+    <section id="tips" class="domain tips reveal">
+      <div class="domain-head" style="margin-bottom:20px;">
+        <div><h2 style="color:var(--gold);">How to Study This</h2></div>
+      </div>
+      <ul>
+        <li>Read <b>domain by domain</b>, not front-to-back — each one is a self-contained "chapter."</li>
+        <li>For every concept, ask: <b>"what could go wrong without this, and how would an auditor catch it?"</b> — that's the exam's real question format.</li>
+        <li>Learn the <b>acronyms cold</b> (RTO, RPO, SoD, MFA, CIA, RACI) — they appear constantly, in both directions.</li>
+        <li><b>Domains 4 and 5 carry over half the exam weight</b> (52% combined) — study them hardest.</li>
+        <li>Practice with the CISA Review Questions manual after each domain to check whether you can <b>apply</b> the idea, not just recall it.</li>
+      </ul>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="domain reveal">
+      <div class="domain-head" style="margin-bottom:20px;">
+        <div><h2 style="color:var(--accent-strong);">Frequently Asked Questions</h2></div>
+      </div>
+      <div class="faq">
+        <details class="faq-item" open>
+          <summary>Which topics do most people find the most difficult?</summary>
+          <p>Most candidates struggle most with <b>Domain 4 (Operations &amp; Business Resilience)</b> and <b>Domain 5 (Protection of Information Assets)</b> — they're the most technical, cover the widest range of topics (networking, cryptography, BCP/DRP math like RTO/RPO), and together make up <b>52%</b> of the exam. Many also find the <b>sampling and evidence calculations</b> in Domain 1 tricky at first, simply because they feel more like statistics than IT.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Do I need an IT or technical background to take CISA?</summary>
+          <p>No — CISA is aimed at auditors, so a business or accounting background works fine. You do need to eventually explain technical controls in plain terms, which is exactly what this guide is for.</p>
+        </details>
+        <details class="faq-item">
+          <summary>I'm a qualified Management Accountant (CMA) — which topics will be hardest, and what should I start learning first?</summary>
+          <p>Good news first: your background already covers a lot of <b>Domain 1 (Auditing Process)</b> and <b>Domain 2 (Governance)</b> — internal controls, segregation of duties, risk management, and reporting findings will feel familiar since they're close to financial audit concepts.</p>
+          <p style="padding:0 20px 4px;"><b>What will be hardest:</b> <b>Domain 4 (Operations &amp; Business Resilience)</b> and <b>Domain 5 (Protection of Information Assets)</b> — these are the purely technical domains (<b style="color:var(--d5);">networks</b>, <b style="color:var(--d5);">servers</b>, <b style="color:var(--d5);">encryption</b>, <b style="color:var(--d5);">access control</b>) that an accounting background doesn't naturally cover. <b>Domain 3 (Building Systems)</b> will also take extra effort since it uses <b style="color:var(--d3);">software-development vocabulary</b> you likely haven't used day to day.</p>
+          <p style="padding:0 20px 18px;"><b>Where to start building concepts:</b></p>
+          <ul style="margin:0 0 18px;padding:0 20px 0 44px;color:var(--ink-soft);font-size:1rem;">
+            <li>Basic IT infrastructure: what a server, database, and network actually are</li>
+            <li>Networking fundamentals: firewalls, IP addresses, what a "protocol" means</li>
+            <li>Core security ideas: the <b>CIA triad</b>, encryption, access control, MFA</li>
+            <li>SDLC vocabulary: waterfall vs. agile, and the different types of testing</li>
+            <li>BCP/DR mechanics: <b>RTO</b>, <b>RPO</b>, backup types, hot/warm/cold sites</li>
+          </ul>
+        </details>
+        <details class="faq-item">
+          <summary>How much work experience do I need?</summary>
+          <p>ISACA requires <b>5 years of relevant IS audit, control, or security work experience</b> to be certified. You can take the exam first — the experience requirement can be completed within 5 years after passing.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How is the exam scored?</summary>
+          <p>Scores run from <b>200 to 800</b>, and you need <b>450</b> to pass. It's a scaled score, not a raw percentage, so the exact number of correct answers needed varies slightly by exam form.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Which domain should I study first?</summary>
+          <p>Start with <b>Domain 1</b> — it teaches the audit vocabulary and mindset (evidence, risk-based planning, reporting) that the other four domains all assume you already know.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Do I need to renew the certification after passing?</summary>
+          <p>Yes — CISA requires <b>ongoing Continuing Professional Education (CPE) hours</b> reported annually, plus an annual maintenance fee, to keep the certification active.</p>
+        </details>
+        <details class="faq-item">
+          <summary>I want to build an IT-audit software that uses AI to automate the process in real time — what should I learn and do?</summary>
+          <p>This is essentially building a <b>Continuous Control Monitoring (CCM)</b> platform with AI layered on top. Here's a practical path:</p>
+          <p style="padding:0 20px 4px;"><b>1. Learn the audit domain first, not the code first.</b> You can't automate a control test you don't understand. Study <b>CISA Domain 1</b> closely — especially <b>CAATs (Computer-Assisted Audit Techniques)</b>, <b>continuous auditing/monitoring</b>, and the manual's own section on <b>AI/ML in IS audit</b> (interpreting AI results and their risk). This tells you what a "good" automated test looks like and where AI can go wrong.</p>
+          <p style="padding:0 20px 4px;"><b>2. Learn the technical stack:</b></p>
+          <ul style="margin:0 0 4px;padding:0 20px 0 44px;color:var(--ink-soft);font-size:1rem;">
+            <li><b>Python + SQL</b> — the backbone for pulling and analyzing data</li>
+            <li><b>APIs/integrations</b> — to pull real-time data from ERPs, cloud logs (AWS CloudTrail, Azure AD), ticketing systems, and SIEM tools</li>
+            <li><b>Rule engines</b> — for deterministic checks (e.g., segregation-of-duty conflicts, terminated employee still has access)</li>
+            <li><b>ML for anomaly detection</b> — to catch patterns a fixed rule would miss (unusual transaction timing, amount, or user behavior)</li>
+            <li><b>Dashboards/alerting</b> — so exceptions surface the moment they happen, not in a report weeks later</li>
+          </ul>
+          <p style="padding:0 20px 4px;"><b>3. Start narrow, not broad.</b> Pick one control (e.g., user access recertification, or duplicate vendor payments) and automate that single test end-to-end before expanding. A working narrow tool beats a half-built platform.</p>
+          <p style="padding:0 20px 18px;"><b>4. Build in auditability of the AI itself.</b> Every flagged exception needs an explainable "why," a human sign-off step, and its own audit trail — regulators and external auditors will ask "how did the AI decide this?" and "no answer" is not acceptable. This is the exact gap the CISA manual flags under AI/ML audit risk.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is CISA the same as CISSP? How are they different?</summary>
+          <p>No — they're different certifications for different jobs, even though both come up in security careers:</p>
+          <p style="padding:0 20px 4px;"><b>Role:</b> CISA is for <b>auditors</b> — checking whether systems, controls, and processes can be trusted. CISSP is for <b>security practitioners</b> — designing, building, and running the security program itself.</p>
+          <p style="padding:0 20px 4px;"><b>Focus:</b> CISA leans on audit process, evidence, governance, and risk (5 domains). CISSP leans on deep technical security across its own 8 domains, defined by (ISC)²:</p>
+          <ul style="margin:0 0 4px;padding:0 20px 0 44px;color:var(--ink-soft);font-size:1rem;">
+            <li>Security &amp; Risk Management — <i>overlaps with CISA Domain 2, Governance</i></li>
+            <li>Asset Security — <i>touches CISA Domain 5, Protecting Assets</i></li>
+            <li>Security Architecture &amp; Engineering — <i>touches CISA Domain 5</i></li>
+            <li>Communication &amp; Network Security — <i>overlaps with CISA Domain 5</i></li>
+            <li>Identity &amp; Access Management (IAM) — <i>overlaps with CISA Domain 5</i></li>
+            <li>Security Assessment &amp; Testing — <i>overlaps with CISA Domain 1, Auditing Process</i></li>
+            <li>Security Operations — <i>overlaps with CISA Domain 4, Operations &amp; Resilience</i></li>
+            <li>Software Development Security — <i>overlaps with CISA Domain 3, Building Systems</i></li>
+          </ul>
+          <p style="padding:0 20px 4px;">In short: <b>IAM, network security, and cryptography</b> (CISSP's Communication &amp; Network Security + Identity &amp; Access Management + parts of Architecture &amp; Engineering) map closely onto <b>CISA Domain 5</b>, while <b>Security Assessment &amp; Testing</b> maps onto <b>CISA Domain 1</b>. The rest is where the two certifications genuinely diverge — CISSP goes deeper into building and engineering; CISA goes deeper into auditing and governance.</p>
+          <p style="padding:0 20px 4px;"><b>Issuer:</b> CISA is issued by <b>ISACA</b>; CISSP is issued by <b>(ISC)²</b>.</p>
+          <p style="padding:0 20px 4px;"><b>Experience needed:</b> CISA needs 5 years of IS audit/control/security experience. CISSP needs 5 years of experience in at least 2 of its 8 domains (or 4 years with a relevant degree).</p>
+          <p style="padding:0 20px 4px;"><b>Typical roles after:</b> CISA → IT auditor, compliance manager, risk analyst. CISSP → security engineer, security architect, CISO track. Some professionals hold both — CISA to speak the auditor's language, CISSP to speak the builder's language.</p>
+          <p style="padding:0 20px 18px;"><b>Which is harder?</b> Most people rate <b>CISSP as the tougher exam</b> — it covers deep technical ground across 8 broad domains and is known for tricky "choose the <i>best</i> answer" questions. CISA is generally seen as more approachable if you think in terms of process and risk rather than deep technical detail — but it's still a serious, respected exam, not an easy one.</p>
+        </details>
+      </div>
+    </section>
+
+    <footer class="note">Simplified study companion to the CISA Official Review Manual, 28th Edition. For full technical detail, definitions, and exam-style practice questions, refer back to the official manual and question bank.</footer>
+  </main>
+</div>
+
+<script>
+(function(){
+  var toggle = document.getElementById('tocToggle');
+  var toc = document.getElementById('toc');
+  if(toggle){
+    toggle.addEventListener('click', function(){
+      toc.classList.toggle('open');
+    });
+  }
+  var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+  var sections = links.map(function(a){ return document.querySelector(a.getAttribute('href')); }).filter(Boolean);
+  function onScroll(){
+    var pos = window.scrollY + 120;
+    var current = sections[0];
+    sections.forEach(function(sec){ if(sec.offsetTop <= pos) current = sec; });
+    links.forEach(function(a){ a.classList.remove('active'); });
+    if(current){
+      var idx = sections.indexOf(current);
+      if(links[idx]) links[idx].classList.add('active');
+    }
+  }
+  document.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          e.target.classList.add('in-view');
+          var topics = e.target.querySelectorAll('.topic');
+          topics.forEach(function(t,i){
+            t.style.transitionDelay = (i*70)+'ms';
+            setTimeout(function(){ t.style.transitionDelay=''; }, 600+i*70);
+          });
+          io.unobserve(e.target);
+        }
+      });
+    }, {threshold:0.08, rootMargin:'0px 0px -60px 0px'});
+    document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in-view'); });
+  }
+})();
+</script>
+</body>
+</html>
