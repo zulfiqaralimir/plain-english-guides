@@ -1,0 +1,757 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>GRC in Plain English</title>
+<style>
+:root{color-scheme:light dark;}
+body{margin:0;}
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap');
+
+:root{
+  --bg:#EEF1EF;
+  --surface:#FFFFFF;
+  --surface-2:#E5E9E7;
+  --ink:#182126;
+  --ink-soft:#4B5A5F;
+  --line:#CCD5D2;
+  --accent:#6E3FA3;
+  --accent-strong:#4B2570;
+  --accent-tint:#EDE1F5;
+  --gold:#9C7A28;
+  --gold-tint:#F1E7CC;
+  --new:#1E7A3D;
+  --shadow:0 1px 2px rgba(75,37,112,.06), 0 6px 20px rgba(75,37,112,.06);
+
+  /* per-domain accent colors (light) */
+  --d1:#1E7A6B; --d1-tint:#DCEFEA;
+  --d2:#B4791F; --d2-tint:#F5E5CC;
+  --d3:#4A4FA0; --d3-tint:#E3E3F5;
+  --d4:#B4552E; --d4-tint:#F6E3D8;
+  --d5:#A02F4E; --d5-tint:#F5DEE5;
+  --d6:#7A4FA0; --d6-tint:#EDE1F5;
+  --d7:#3D6B99; --d7-tint:#DCE7F2;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#12181B; --surface:#1A2226; --surface-2:#212B2F;
+    --ink:#E8EDEC; --ink-soft:#A9B7B8; --line:#2C383C;
+    --accent:#B98FE0; --accent-strong:#D6BCF0; --accent-tint:#2E2140;
+    --gold:#D6B65C; --gold-tint:#332A16;
+    --new:#5FD489;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+    --d1:#5FD4BC; --d1-tint:#17332B;
+    --d2:#E0B25F; --d2-tint:#332913;
+    --d3:#8C90E8; --d3-tint:#232A45;
+    --d4:#E08858; --d4-tint:#3A2519;
+    --d5:#E0708C; --d5-tint:#3A1F27;
+    --d6:#C79FE8; --d6-tint:#2E2140;
+    --d7:#7FB0E0; --d7-tint:#1E2E42;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12181B; --surface:#1A2226; --surface-2:#212B2F;
+  --ink:#E8EDEC; --ink-soft:#A9B7B8; --line:#2C383C;
+  --accent:#B98FE0; --accent-strong:#D6BCF0; --accent-tint:#2E2140;
+  --gold:#D6B65C; --gold-tint:#332A16;
+  --new:#5FD489;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+  --d1:#5FD4BC; --d1-tint:#17332B;
+  --d2:#E0B25F; --d2-tint:#332913;
+  --d3:#8C90E8; --d3-tint:#232A45;
+  --d4:#E08858; --d4-tint:#3A2519;
+  --d5:#E0708C; --d5-tint:#3A1F27;
+  --d6:#C79FE8; --d6-tint:#2E2140;
+  --d7:#7FB0E0; --d7-tint:#1E2E42;
+}
+
+*{box-sizing:border-box;}
+html{font-size:19px;}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Public Sans',system-ui,-apple-system,sans-serif;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{
+  font-family:'Source Serif 4',Georgia,'Times New Roman',serif;
+  text-wrap:balance;
+  color:var(--ink);
+  margin:0;
+}
+code, .mono{font-family:'IBM Plex Mono',ui-monospace,monospace;}
+a{color:var(--accent-strong);}
+ul{margin:0;padding-left:1.15em;}
+li{margin:0 0 6px;}
+li:last-child{margin-bottom:0;}
+li b, .plain b, .remember b{color:inherit;}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.001ms !important; transition-duration:.001ms !important;}
+}
+
+/* ---------- shell ---------- */
+.shell{
+  max-width:1560px;
+  margin:0 auto;
+  padding:0 32px;
+  display:grid;
+  grid-template-columns:230px minmax(0,1fr);
+  gap:40px;
+}
+@media (max-width:880px){
+  .shell{grid-template-columns:1fr;padding:0 20px;}
+}
+
+/* ---------- header / hero ---------- */
+.hero{
+  grid-column:1/-1;
+  padding:44px 0 30px;
+  border-bottom:1px solid var(--line);
+}
+.hero .eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font:600 12px/1 'IBM Plex Mono',monospace;
+  letter-spacing:.08em;text-transform:uppercase;
+  color:var(--accent-strong);
+  background:var(--accent-tint);
+  padding:6px 10px;border-radius:5px;
+  margin-bottom:16px;
+  animation:fadeUp .6s ease both;
+}
+.hero h1{
+  font-size:clamp(2rem,4.5vw,3rem);font-weight:700;max-width:18ch;
+  background:linear-gradient(110deg,var(--accent-strong),var(--d5) 45%,var(--d2) 70%,var(--accent-strong));
+  background-size:250% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:fadeUp .6s ease .1s both,shimmer 7s ease-in-out .8s infinite alternate;
+}
+.hero p.lede{
+  margin-top:14px;max-width:62ch;
+  font-size:1.15rem;color:var(--ink-soft);
+  animation:fadeUp .6s ease .2s both;
+}
+.hero-meta{
+  display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:24px;
+  animation:fadeUp .6s ease .3s both;
+}
+.hero-meta div{font-size:.95rem;color:var(--ink-soft);}
+.hero-meta strong{display:block;font:600 1.2rem 'Source Serif 4',serif;color:var(--ink);}
+
+/* ---------- sidebar / toc ---------- */
+.toc{
+  position:sticky;top:20px;align-self:start;
+  padding:18px 0 40px;
+}
+.toc-title{
+  font:600 11px/1 'IBM Plex Mono',monospace;
+  letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink-soft);margin-bottom:12px;
+}
+.toc ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:3px;}
+.toc a{
+  display:flex;align-items:center;gap:10px;
+  text-decoration:none;color:var(--ink-soft);
+  font-size:.95rem;padding:7px 10px;border-radius:7px;
+  border-left:2px solid transparent;
+  transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease;
+}
+.toc a .num{
+  font:600 11px 'IBM Plex Mono',monospace;color:var(--dc,var(--accent));
+  width:15px;flex:none;
+}
+.toc a:hover{background:var(--surface-2);color:var(--ink);transform:translateX(2px);}
+.toc a.active{background:var(--dt,var(--accent-tint));color:var(--dc,var(--accent-strong));border-left-color:var(--dc,var(--accent));font-weight:600;}
+.toc .weight{margin-left:auto;font:500 11px 'IBM Plex Mono',monospace;color:var(--ink-soft);}
+
+.toc-foot{
+  margin-top:22px;padding-top:16px;border-top:1px solid var(--line);
+  font-size:.85rem;color:var(--ink-soft);
+}
+
+.toc-toggle{display:none;}
+@media (max-width:880px){
+  .toc-toggle{
+    display:block;width:100%;text-align:left;
+    background:var(--surface);border:1px solid var(--line);border-radius:9px;
+    padding:12px 14px;font:600 .85rem 'Public Sans',sans-serif;color:var(--ink);
+    margin:18px 0 0;
+  }
+  .toc{display:none;position:static;}
+  .toc.open{display:block;animation:fadeUp .3s ease both;}
+}
+
+/* ---------- main content ---------- */
+main{padding:36px 0 80px;min-width:0;}
+
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease;}
+.reveal.in-view{opacity:1;transform:translateY(0);}
+
+.intro-card{
+  background:var(--surface);border:1px solid var(--line);border-radius:14px;
+  padding:24px 26px;box-shadow:var(--shadow);margin-bottom:44px;
+}
+.intro-card h2{font-size:1.3rem;margin-bottom:10px;color:var(--accent-strong);}
+.intro-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px;}
+@media (max-width:640px){.intro-grid{grid-template-columns:1fr;}}
+.stat{border-left:2px solid var(--accent);padding-left:12px;}
+.stat b{display:block;font:600 1.15rem 'Source Serif 4',serif;}
+.stat span{font-size:.9rem;color:var(--ink-soft);}
+
+.domain{
+  padding-top:56px;scroll-margin-top:20px;
+  border-top:1px solid var(--line);
+  --dc:var(--accent); --dt:var(--accent-tint);
+}
+.domain:first-of-type{border-top:none;}
+.domain.c1{--dc:var(--d1);--dt:var(--d1-tint);}
+.domain.c2{--dc:var(--d2);--dt:var(--d2-tint);}
+.domain.c3{--dc:var(--d3);--dt:var(--d3-tint);}
+.domain.c4{--dc:var(--d4);--dt:var(--d4-tint);}
+.domain.c5{--dc:var(--d5);--dt:var(--d5-tint);}
+.domain.c6{--dc:var(--d6);--dt:var(--d6-tint);}
+.domain.c7{--dc:var(--d7);--dt:var(--d7-tint);}
+
+.domain-head{display:flex;gap:18px;align-items:flex-start;}
+.domain-badge{
+  flex:none;width:56px;height:56px;border-radius:50%;
+  background:var(--dc);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font:700 1.5rem 'Source Serif 4',serif;
+  box-shadow:0 4px 14px color-mix(in srgb, var(--dc) 45%, transparent);
+  opacity:0;transform:scale(.3) rotate(-25deg);
+  transition:transform .55s cubic-bezier(.34,1.56,.64,1),opacity .4s ease;
+}
+.domain.in-view .domain-badge{opacity:1;transform:scale(1) rotate(0deg);}
+.domain-head h2{font-size:1.55rem;color:var(--dc);}
+.domain-weight{
+  font:600 .88rem 'IBM Plex Mono',monospace;color:var(--dc);
+  background:var(--dt);padding:3px 9px;border-radius:5px;
+  display:inline-block;margin-top:6px;
+}
+.plain{
+  margin:20px 0 26px;padding:16px 18px;
+  background:var(--dt);border-radius:10px;border-left:3px solid var(--dc);
+  font-size:1.18rem;color:var(--ink);
+}
+.plain b{color:var(--dc);}
+
+.topics{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;align-items:start;}
+.topic{
+  background:var(--surface);border:1px solid var(--line);border-radius:11px;
+  padding:16px 18px;
+  opacity:0;transform:translateY(16px);
+  transition:transform .45s cubic-bezier(.22,1,.36,1),box-shadow .2s ease,border-color .2s ease,opacity .45s ease;
+}
+.domain.in-view .topic{opacity:1;transform:translateY(0);}
+.topic:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--dc);}
+.topic h3{font-size:1.08rem;font-weight:700;font-family:'Public Sans',sans-serif;color:var(--dc);margin-bottom:8px;}
+.topic ul{color:var(--ink-soft);font-size:1.1rem;}
+.topic b{color:var(--ink);}
+.topic li::marker{color:var(--dc);}
+
+.terms{
+  margin-top:22px;display:flex;flex-wrap:wrap;gap:8px;
+}
+.term{
+  font-size:.95rem;background:var(--dt);border:1px solid color-mix(in srgb, var(--dc) 35%, var(--line));
+  padding:5px 10px;border-radius:20px;color:var(--dc);
+  transition:transform .15s ease;
+}
+.term:hover{transform:translateY(-2px);}
+.term b{font-weight:700;}
+
+.remember{
+  margin-top:22px;border:1px dashed var(--dc);border-radius:10px;
+  padding:14px 16px;font-size:1.08rem;color:var(--ink-soft);
+  background:var(--surface);
+}
+.remember b{color:var(--dc);}
+
+/* glossary + tips */
+.glossary dl{display:grid;grid-template-columns:1fr;gap:10px;}
+.glossary .row{display:grid;grid-template-columns:170px 1fr;gap:14px;padding:10px 0;border-bottom:1px solid var(--line);transition:background .2s ease;}
+.glossary .row:hover{background:var(--surface-2);}
+@media (max-width:640px){.glossary .row{grid-template-columns:1fr;gap:4px;}}
+.glossary dt{font-weight:700;font-family:'IBM Plex Mono',monospace;font-size:.82rem;color:var(--accent-strong);}
+.glossary dd{margin:0;color:var(--ink-soft);font-size:1.08rem;}
+.glossary dd b{color:var(--ink);}
+
+.tips ul{margin:0;padding-left:20px;color:var(--ink-soft);font-size:1.12rem;display:flex;flex-direction:column;gap:10px;}
+.tips li b{color:var(--accent-strong);}
+.tips li::marker{color:var(--gold);}
+
+.faq{display:flex;flex-direction:column;gap:12px;margin-top:20px;}
+.faq-item{
+  background:var(--surface);border:1px solid var(--line);border-radius:11px;
+  overflow:hidden;
+}
+.faq-item summary{
+  list-style:none;cursor:pointer;padding:16px 20px;
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  font-family:'Public Sans',sans-serif;font-weight:700;font-size:1.05rem;color:var(--ink);
+}
+.faq-item summary::-webkit-details-marker{display:none;}
+.faq-item summary::after{
+  content:'+';flex:none;font:400 1.4rem 'Source Serif 4',serif;color:var(--accent);
+  transition:transform .25s ease;
+}
+.faq-item[open] summary::after{transform:rotate(45deg);}
+.faq-item summary:hover{color:var(--accent-strong);}
+.faq-item p{margin:0;padding:0 20px 18px;color:var(--ink-soft);font-size:1.02rem;}
+
+footer.note{
+  margin-top:60px;padding-top:20px;border-top:1px solid var(--line);
+  font-size:.78rem;color:var(--ink-soft);
+}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(14px);}
+  to{opacity:1;transform:translateY(0);}
+}
+@keyframes shimmer{
+  from{background-position:0% 50%;}
+  to{background-position:100% 50%;}
+}
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <div class="hero">
+    <span class="eyebrow">Study Guide · Plain-Language Edition</span>
+    <h1>GRC in Plain English</h1>
+    <p class="lede">A simplified walk-through of the seven official (ISC)² CGRC domains — governance, risk, and compliance through the lens of the Risk Management Framework, in everyday words, with the <b>key terms</b> you need to recognize.</p>
+    <div class="hero-meta">
+      <div><strong>7</strong>domains covered</div>
+      <div><strong>125</strong>exam questions</div>
+      <div><strong>3 hrs</strong>exam length</div>
+      <div><strong>700 / 1000</strong>passing score</div>
+    </div>
+  </div>
+
+  <nav class="toc" id="toc">
+    <div class="toc-title">Contents</div>
+    <ol>
+      <li><a href="#start"><span class="num">00</span>What is GRC / CGRC?</a></li>
+      <li><a href="#d1" data-c="1"><span class="num">01</span>Risk Management Program<span class="weight">15%</span></a></li>
+      <li><a href="#d2" data-c="2"><span class="num">02</span>Scope of the System<span class="weight">14%</span></a></li>
+      <li><a href="#d3" data-c="3"><span class="num">03</span>Selecting Controls<span class="weight">19%</span></a></li>
+      <li><a href="#d4" data-c="4"><span class="num">04</span>Implementing Controls<span class="weight">15%</span></a></li>
+      <li><a href="#d5" data-c="5"><span class="num">05</span>Assessing Controls<span class="weight">13%</span></a></li>
+      <li><a href="#d6" data-c="6"><span class="num">06</span>Authorizing the System<span class="weight">13%</span></a></li>
+      <li><a href="#d7" data-c="7"><span class="num">07</span>Continuous Monitoring<span class="weight">11%</span></a></li>
+      <li><a href="#glossary"><span class="num">08</span>Glossary</a></li>
+      <li><a href="#tips"><span class="num">09</span>Study Tips</a></li>
+      <li><a href="#faq"><span class="num">10</span>FAQs</a></li>
+    </ol>
+    <div class="toc-foot">Based on the (ISC)² CGRC exam outline — rewritten in simple language.</div>
+  </nav>
+  <button class="toc-toggle" id="tocToggle">☰ Contents</button>
+
+  <main>
+    <section id="start" class="intro-card reveal">
+      <h2>What is GRC — and what is CGRC, really?</h2>
+      <p style="color:var(--ink-soft);max-width:66ch;margin:0 0 12px;"><b>GRC (Governance, Risk, and Compliance)</b> is the discipline of running security as a managed program rather than a pile of individual controls: <b>governance</b> sets who decides what, <b>risk management</b> decides how much danger is acceptable, and <b>compliance</b> proves the organization is actually doing what it promised regulators, customers, and auditors.</p>
+      <p style="color:var(--ink-soft);max-width:66ch;margin:0 0 12px;"><b>CGRC (Certified in Governance, Risk and Compliance)</b> — formerly called <b>CAP</b>, Certified Authorization Professional — is (ISC)²'s certification for the people who actually run that program day to day, using the <b style="color:var(--new);">Risk Management Framework (RMF)</b>: the formal, repeatable process the U.S. federal government (and many private organizations) use to authorize an information system for use.</p>
+      <ul style="color:var(--ink-soft);max-width:66ch;">
+        <li>Answering <b>"is this system allowed to operate, and under what conditions?"</b></li>
+        <li>Turning abstract risk appetite into a <b>concrete set of approved controls</b></li>
+        <li>Producing the paper trail — <b>SSP, SAR, POA&amp;M</b> — that lets a decision-maker actually decide</li>
+        <li>Keeping that authorization honest <b>after go-live</b>, not just on day one</li>
+      </ul>
+      <p style="color:var(--ink-soft);max-width:66ch;margin:12px 0 0;">The exam is built around seven domains that map directly onto the seven steps of the RMF life cycle.</p>
+      <div class="intro-grid">
+        <div class="stat"><b>Core framework</b><span>NIST Risk Management Framework (RMF), SP 800-37</span></div>
+        <div class="stat"><b>Core idea</b><span>Risk-based authorization, not one-time certification</span></div>
+        <div class="stat"><b>Mindset</b><span>Document the decision so someone else could defend it later</span></div>
+      </div>
+    </section>
+
+    <!-- DOMAIN 1 -->
+    <section id="d1" class="domain c1 reveal">
+      <div class="domain-head">
+        <div class="domain-badge">1</div>
+        <div>
+          <h2>Information Security Risk Management Program</h2>
+          <span class="domain-weight">≈15% of exam</span>
+        </div>
+      </div>
+      <div class="plain"><b>In one line:</b> the foundation domain — understanding the organization's risk management structure, the legal/regulatory backdrop, and who is accountable for what before any system-level work starts.</div>
+      <div class="topics">
+        <div class="topic"><h3>Organization-wide risk management</h3><ul>
+          <li>Risk is managed at three tiers: <b>organization, mission/business process, and information system</b> — decisions at one tier constrain the others</li>
+          <li>A documented <b>risk management strategy</b> sets the organization's risk appetite and tolerance up front</li>
+        </ul></div>
+        <div class="topic"><h3>Legal, regulatory &amp; framework context</h3><ul>
+          <li>Drivers include <b>FISMA</b>, the Privacy Act, and sector-specific rules; private-sector equivalents lean on <b>ISO/IEC 27001</b> or industry frameworks</li>
+          <li>CGRC applies RMF concepts that generalize beyond U.S. federal systems to any organization running a formal ATO-style process</li>
+        </ul></div>
+        <div class="topic"><h3>Key roles</h3><ul>
+          <li><b>Authorizing Official (AO)</b> — the senior official who accepts risk and grants the authorization</li>
+          <li><b>System Owner</b>, <b>ISSO</b> (Information System Security Officer), and <b>Common Control Provider</b> each own a different slice of the process</li>
+        </ul></div>
+        <div class="topic"><h3>Integrating privacy</h3><ul>
+          <li>Privacy risk is assessed alongside security risk, not bolted on afterward — a <b>Senior Agency Official for Privacy</b> role mirrors the AO for privacy decisions</li>
+        </ul></div>
+        <div class="topic"><h3>Program-level documentation</h3><ul>
+          <li>Policies, standards, and the risk management strategy give every later domain a consistent baseline to build from</li>
+        </ul></div>
+      </div>
+      <div class="terms">
+        <span class="term"><b>RMF</b> — Risk Management Framework</span>
+        <span class="term"><b>AO</b> — Authorizing Official</span>
+        <span class="term"><b>Risk tolerance</b> — how much risk is acceptable</span>
+        <span class="term"><b>ISSO</b> — Information System Security Officer</span>
+      </div>
+      <div class="remember"><b>Remember it as:</b> the org chart and rulebook domain — who is allowed to accept risk, and under which laws and policies.</div>
+    </section>
+
+    <!-- DOMAIN 2 -->
+    <section id="d2" class="domain c2 reveal">
+      <div class="domain-head">
+        <div class="domain-badge">2</div>
+        <div>
+          <h2>Scope of the Information System</h2>
+          <span class="domain-weight">≈14% of exam</span>
+        </div>
+      </div>
+      <div class="plain"><b>In one line:</b> deciding exactly what the "system" is — its boundary, its data, and how much damage its loss would cause — before you can protect it correctly.</div>
+      <div class="topics">
+        <div class="topic"><h3>Categorization</h3><ul>
+          <li><b>FIPS 199</b> categorizes a system as <b>Low, Moderate, or High</b> impact for each of confidentiality, integrity, and availability</li>
+          <li>The <b>highest</b> of those three ratings drives the overall system categorization — a "high-water mark" rule</li>
+        </ul></div>
+        <div class="topic"><h3>System boundary</h3><ul>
+          <li>The <b>authorization boundary</b> defines exactly which components, interfaces, and data flows are "inside" the system being authorized</li>
+          <li>Drawing it too loosely hides risk; drawing it too tightly creates gaps at the edges</li>
+        </ul></div>
+        <div class="topic"><h3>Information types &amp; stakeholders</h3><ul>
+          <li>Every data type processed (PII, financial, operational) gets its own impact assessment</li>
+          <li>Stakeholders — owners, users, mission partners — are identified early since they shape requirements</li>
+        </ul></div>
+        <div class="topic"><h3>System description &amp; architecture</h3><ul>
+          <li>A written system description captures purpose, architecture, and interconnections — this becomes the backbone of the <b>System Security Plan (SSP)</b> later</li>
+        </ul></div>
+        <div class="topic"><h3>Registering the system</h3><ul>
+          <li>The system is entered into the organization's <b>system inventory</b> so it's tracked for oversight and resourcing</li>
+        </ul></div>
+      </div>
+      <div class="terms">
+        <span class="term"><b>FIPS 199</b> — impact categorization standard</span>
+        <span class="term"><b>Authorization boundary</b> — what's "in scope"</span>
+        <span class="term"><b>High-water mark</b> — highest impact rating wins</span>
+        <span class="term"><b>SSP</b> — System Security Plan</span>
+      </div>
+      <div class="remember"><b>Remember it as:</b> drawing the fence — you can't protect a system you haven't defined the edges of.</div>
+    </section>
+
+    <!-- DOMAIN 3 -->
+    <section id="d3" class="domain c3 reveal">
+      <div class="domain-head">
+        <div class="domain-badge">3</div>
+        <div>
+          <h2>Selection and Approval of Security and Privacy Controls</h2>
+          <span class="domain-weight">≈19% of exam</span>
+        </div>
+      </div>
+      <div class="plain"><b>In one line:</b> the heaviest domain — picking the right catalog of controls for the system's risk level, then tailoring and documenting them so everyone agrees what "secure" means for this system.</div>
+      <div class="topics">
+        <div class="topic"><h3>Control baselines</h3><ul>
+          <li><b>NIST SP 800-53</b> catalogs hundreds of controls, grouped into <b>Low, Moderate, and High</b> baselines that match the FIPS 199 categorization from Domain 2</li>
+          <li>A baseline is a <b>starting point</b>, not a final answer</li>
+        </ul></div>
+        <div class="topic"><h3>Tailoring</h3><ul>
+          <li><b>Scoping guidance</b>, <b>compensating controls</b>, and organization-defined parameters adjust the baseline to fit the real environment</li>
+          <li>Every tailoring decision needs a documented rationale — an assessor will ask why later</li>
+        </ul></div>
+        <div class="topic"><h3>Common vs. system-specific controls</h3><ul>
+          <li><b>Common controls</b> are inherited from elsewhere (e.g. a shared data center's physical security) and managed by a <b>Common Control Provider</b></li>
+          <li><b>System-specific controls</b> are implemented and owned entirely within this system's boundary</li>
+        </ul></div>
+        <div class="topic"><h3>Documenting the plan</h3><ul>
+          <li>Selected and tailored controls, plus how each will be implemented, get written into the <b>System Security Plan (SSP)</b></li>
+          <li>Privacy controls follow the same selection logic via a parallel privacy control baseline</li>
+        </ul></div>
+        <div class="topic"><h3>Review &amp; approval</h3><ul>
+          <li>The AO or a designated representative reviews and approves the control selection <b>before</b> implementation begins — catching gaps early is far cheaper than catching them at assessment</li>
+        </ul></div>
+      </div>
+      <div class="terms">
+        <span class="term"><b>SP 800-53</b> — NIST control catalog</span>
+        <span class="term"><b>Baseline</b> — starting set of controls by impact level</span>
+        <span class="term"><b>Tailoring</b> — adjusting controls to fit context</span>
+        <span class="term"><b>Common control</b> — inherited, shared control</span>
+      </div>
+      <div class="remember"><b>Remember it as:</b> the shopping-list domain — choosing exactly which controls this specific system needs, and writing down why.</div>
+    </section>
+
+    <!-- DOMAIN 4 -->
+    <section id="d4" class="domain c4 reveal">
+      <div class="domain-head">
+        <div class="domain-badge">4</div>
+        <div>
+          <h2>Implementation of Security and Privacy Controls</h2>
+          <span class="domain-weight">≈15% of exam</span>
+        </div>
+      </div>
+      <div class="plain"><b>In one line:</b> actually building the controls the SSP promised — and documenting exactly how each one was implemented, so it can be verified later.</div>
+      <div class="topics">
+        <div class="topic"><h3>Turning the plan into practice</h3><ul>
+          <li>Technical, operational, and management controls are configured, deployed, or put into procedure exactly as described in the SSP</li>
+          <li>Gaps between "planned" and "actually built" have to be reconciled, not ignored</li>
+        </ul></div>
+        <div class="topic"><h3>Documenting implementation details</h3><ul>
+          <li>For each control, the SSP is updated with the <b>specific</b> implementation detail — not just "encryption is used" but which algorithm, key length, and configuration</li>
+          <li>Vague documentation is one of the most common findings during later assessment</li>
+        </ul></div>
+        <div class="topic"><h3>Coordinating across teams</h3><ul>
+          <li>Implementation usually spans system engineers, developers, and facilities — the ISSO coordinates so nothing falls through the cracks</li>
+        </ul></div>
+        <div class="topic"><h3>Privacy controls in practice</h3><ul>
+          <li>Privacy controls (data minimization, consent mechanisms, retention limits) are implemented alongside security controls, not as a separate afterthought project</li>
+        </ul></div>
+      </div>
+      <div class="terms">
+        <span class="term"><b>Control implementation statement</b> — the "how," in detail</span>
+        <span class="term"><b>Technical control</b> — enforced by technology</span>
+        <span class="term"><b>Operational control</b> — enforced by people/process</span>
+        <span class="term"><b>Management control</b> — enforced by oversight/policy</span>
+      </div>
+      <div class="remember"><b>Remember it as:</b> "build it and write down exactly what you built" — an unwritten control is indistinguishable from a missing one during assessment.</div>
+    </section>
+
+    <!-- DOMAIN 5 -->
+    <section id="d5" class="domain c5 reveal">
+      <div class="domain-head">
+        <div class="domain-badge">5</div>
+        <div>
+          <h2>Assessment/Audit of Security and Privacy Controls</h2>
+          <span class="domain-weight">≈13% of exam</span>
+        </div>
+      </div>
+      <div class="plain"><b>In one line:</b> an independent check on whether the implemented controls actually work as documented — trust, but verify, with a paper trail.</div>
+      <div class="topics">
+        <div class="topic"><h3>Assessment planning</h3><ul>
+          <li>A <b>Security Assessment Plan (SAP)</b> defines scope, methods (examine, interview, test), and the assessment team</li>
+          <li>The assessor should be <b>independent</b> enough that they aren't grading their own homework</li>
+        </ul></div>
+        <div class="topic"><h3>Conducting the assessment</h3><ul>
+          <li>A <b>Security Control Assessor (SCA)</b> executes the SAP, gathering evidence for every control claimed in the SSP</li>
+          <li>Findings are rated by how much residual risk they represent, not just pass/fail</li>
+        </ul></div>
+        <div class="topic"><h3>Reporting results</h3><ul>
+          <li>Results go into a <b>Security Assessment Report (SAR)</b> — what was tested, what passed, what didn't, and why it matters</li>
+        </ul></div>
+        <div class="topic"><h3>Remediation &amp; POA&amp;M</h3><ul>
+          <li>Findings that aren't fixed immediately go into a <b style="color:var(--new);">Plan of Action &amp; Milestones (POA&amp;M)</b> — what will be fixed, by whom, and by when</li>
+          <li>The POA&amp;M becomes one of the three documents the AO reviews to authorize the system in Domain 6</li>
+        </ul></div>
+      </div>
+      <div class="terms">
+        <span class="term"><b>SAP</b> — Security Assessment Plan</span>
+        <span class="term"><b>SCA</b> — Security Control Assessor</span>
+        <span class="term"><b>SAR</b> — Security Assessment Report</span>
+        <span class="term"><b>POA&amp;M</b> — Plan of Action &amp; Milestones</span>
+      </div>
+      <div class="remember"><b>Remember it as:</b> the "prove it" domain — a documented control claim only counts once someone independent has tested it.</div>
+    </section>
+
+    <!-- DOMAIN 6 -->
+    <section id="d6" class="domain c6 reveal">
+      <div class="domain-head">
+        <div class="domain-badge">6</div>
+        <div>
+          <h2>Authorization/Approval of Information System</h2>
+          <span class="domain-weight">≈13% of exam</span>
+        </div>
+      </div>
+      <div class="plain"><b>In one line:</b> the moment of decision — a senior official reviews the full risk picture and formally accepts (or rejects) the risk of operating the system.</div>
+      <div class="topics">
+        <div class="topic"><h3>The authorization package</h3><ul>
+          <li>The AO's decision rests on three documents: the <b>SSP</b> (what was promised), the <b>SAR</b> (what was verified), and the <b>POA&amp;M</b> (what's still outstanding)</li>
+        </ul></div>
+        <div class="topic"><h3>Risk determination</h3><ul>
+          <li>The AO weighs residual risk against the organization's risk tolerance from Domain 1 — a system can have known gaps and still be authorized if the risk is acceptable and tracked</li>
+        </ul></div>
+        <div class="topic"><h3>Authorization decisions</h3><ul>
+          <li><b>ATO (Authority to Operate)</b> — full approval, typically time-limited</li>
+          <li><b>Interim ATO (IATO)</b> — temporary, conditional approval while gaps are closed</li>
+          <li><b>Denial of Authorization</b> — the system may not operate until risk is addressed</li>
+        </ul></div>
+        <div class="topic"><h3>Communicating the decision</h3><ul>
+          <li>The authorization decision, its conditions, and its expiration are documented and communicated to all stakeholders — not just filed away</li>
+        </ul></div>
+      </div>
+      <div class="terms">
+        <span class="term"><b>ATO</b> — Authority to Operate</span>
+        <span class="term"><b>Risk acceptance</b> — a formal, documented decision</span>
+        <span class="term"><b>Authorization package</b> — SSP + SAR + POA&amp;M</span>
+        <span class="term"><b>Residual risk</b> — what's left after controls are applied</span>
+      </div>
+      <div class="remember"><b>Remember it as:</b> the "sign here" domain — someone accountable puts their name on the risk, in writing.</div>
+    </section>
+
+    <!-- DOMAIN 7 -->
+    <section id="d7" class="domain c7 reveal">
+      <div class="domain-head">
+        <div class="domain-badge">7</div>
+        <div>
+          <h2>Continuous Monitoring</h2>
+          <span class="domain-weight">≈11% of exam</span>
+        </div>
+      </div>
+      <div class="plain"><b>In one line:</b> an authorization is a snapshot, not a guarantee — this domain keeps that snapshot honest for as long as the system stays in operation.</div>
+      <div class="topics">
+        <div class="topic"><h3>Ongoing assessment</h3><ul>
+          <li>Controls are re-checked on a rolling schedule instead of waiting for the next full reauthorization</li>
+          <li>An <b style="color:var(--new);">ISCM (Information Security Continuous Monitoring)</b> strategy defines what gets checked, how often, and by whom</li>
+        </ul></div>
+        <div class="topic"><h3>Security status reporting</h3><ul>
+          <li>Regular status reports keep the AO informed between formal reauthorizations, so risk decisions stay current rather than stale</li>
+        </ul></div>
+        <div class="topic"><h3>Ongoing POA&amp;M management</h3><ul>
+          <li>Outstanding items are tracked to closure, and new findings from monitoring or incidents feed straight back into the POA&amp;M</li>
+        </ul></div>
+        <div class="topic"><h3>Change management</h3><ul>
+          <li>Significant changes to the system can trigger a <b>reassessment</b> of affected controls before the change goes live — authorization doesn't automatically survive a major redesign</li>
+        </ul></div>
+        <div class="topic"><h3>Decommissioning</h3><ul>
+          <li>When a system is retired, its authorization is formally closed out and its data is disposed of or migrated per policy — the life cycle has an end, not just a start</li>
+        </ul></div>
+      </div>
+      <div class="terms">
+        <span class="term"><b>ISCM</b> — Information Security Continuous Monitoring</span>
+        <span class="term"><b>Ongoing authorization</b> — risk-based, not calendar-based</span>
+        <span class="term"><b>Reauthorization</b> — renewed formal risk decision</span>
+        <span class="term"><b>Decommissioning</b> — formal system retirement</span>
+      </div>
+      <div class="remember"><b>Remember it as:</b> the "don't set and forget" domain — the authorization is only as good as the monitoring that keeps it true.</div>
+    </section>
+
+    <!-- GLOSSARY -->
+    <section id="glossary" class="domain glossary reveal">
+      <div class="domain-head" style="margin-bottom:20px;">
+        <div><h2 style="color:var(--accent-strong);">Quick Glossary</h2></div>
+      </div>
+      <dl>
+        <div class="row"><dt>RMF</dt><dd>The <b>Risk Management Framework</b> — the seven-step life cycle this entire certification is built around.</dd></div>
+        <div class="row"><dt>AO</dt><dd>The <b>Authorizing Official</b> — the person who formally accepts risk and grants the ATO.</dd></div>
+        <div class="row"><dt>SSP</dt><dd><b>System Security Plan</b> — documents the system, its boundary, and every selected control's implementation.</dd></div>
+        <div class="row"><dt>SAR</dt><dd><b>Security Assessment Report</b> — the independent assessor's findings on whether controls actually work.</dd></div>
+        <div class="row"><dt>POA&amp;M</dt><dd><b>Plan of Action &amp; Milestones</b> — the tracked to-do list of unresolved findings, owners, and dates.</dd></div>
+        <div class="row"><dt>ATO</dt><dd><b>Authority to Operate</b> — the AO's formal, often time-limited, approval for the system to run.</dd></div>
+        <div class="row"><dt>Residual risk</dt><dd>The risk that remains after controls are applied — <b>never zero</b>, and it's what the AO ultimately accepts.</dd></div>
+        <div class="row"><dt>Continuous monitoring</dt><dd>Ongoing, risk-based verification that controls still work — keeps the authorization honest after day one.</dd></div>
+      </dl>
+    </section>
+
+    <!-- TIPS -->
+    <section id="tips" class="domain tips reveal">
+      <div class="domain-head" style="margin-bottom:20px;">
+        <div><h2 style="color:var(--gold);">How to Study This</h2></div>
+      </div>
+      <ul>
+        <li>Learn the <b>seven domains in order</b> — they aren't arbitrary categories, they're the seven sequential steps of the RMF life cycle, so the order itself is testable.</li>
+        <li>Master the <b>document trail</b>: SSP → SAR → POA&amp;M → authorization package. A huge share of exam questions boil down to "which document does this belong in?"</li>
+        <li>Domain 3 (Selecting Controls) carries the most weight at ≈19% — know <b>SP 800-53 baselines and tailoring</b> cold.</li>
+        <li>Think like the <b>AO</b>, not the engineer — CGRC questions reward risk-based judgment calls over purely technical fixes.</li>
+        <li>Keep <b>governance vocabulary straight</b> from the other two disciplines: GRC decides "should we accept this risk," security engineering decides "how do we build the control," and auditing decides "can we prove it happened."</li>
+      </ul>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="domain reveal">
+      <div class="domain-head" style="margin-bottom:20px;">
+        <div><h2 style="color:var(--accent-strong);">Frequently Asked Questions</h2></div>
+      </div>
+      <div class="faq">
+        <details class="faq-item" open>
+          <summary>Is CGRC the same thing as CAP?</summary>
+          <p>Yes — <b>CGRC (Certified in Governance, Risk and Compliance)</b> is the current name for what was previously called <b>CAP (Certified Authorization Professional)</b>. (ISC)² renamed it to better reflect that the skill set applies broadly to GRC roles, not only to formal U.S. federal authorization work.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Which domain do most candidates find hardest?</summary>
+          <p><b>Domain 3 (Selection and Approval of Controls)</b> trips up the most people — it carries the heaviest exam weight and requires genuine familiarity with the <b>NIST SP 800-53</b> control catalog and tailoring logic, not just memorized definitions.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Do I need to work for the U.S. federal government to use this?</summary>
+          <p>No — CGRC is built around the federal <b>RMF</b>, but the underlying pattern (categorize → select controls → implement → assess → authorize → monitor) is a general-purpose GRC methodology used by private organizations, contractors, and other governments that run formal risk-acceptance processes.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How much work experience do I need?</summary>
+          <p>(ISC)² requires <b>2 years of cumulative, paid work experience</b> in one or more of the seven CGRC domains. If you pass the exam without that experience yet, you become an <b>Associate of (ISC)²</b> and have time to complete it.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Which domain should I study first?</summary>
+          <p>Start with <b>Domain 1 (Risk Management Program)</b> — it introduces the roles (AO, ISSO, Common Control Provider) and vocabulary that every later domain assumes you already know.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How does GRC/CGRC relate to CISA and CISSP?</summary>
+          <p>All three sit in the same security-career family but ask a different core question:</p>
+          <p style="padding:0 20px 4px;"><b>CGRC (this guide)</b> asks <b>"should this specific system be allowed to operate, and under what accepted risk?"</b> — it's the formal, document-driven authorization process (RMF).</p>
+          <p style="padding:0 20px 4px;"><b>CISA</b> asks <b>"can we trust this system and its controls?"</b> — an auditor's independent, evidence-based check across five domains.</p>
+          <p style="padding:0 20px 4px;"><b>CISSP</b> asks <b>"how do we actually design and build a system that's trustworthy?"</b> — a practitioner's hands-on, technical build-and-operate view across eight domains.</p>
+          <p style="padding:0 20px 4px;"><b>Overlap:</b> CGRC's Domain 5 (Assessment) closely mirrors CISA's audit mindset and CISSP's Security Assessment &amp; Testing domain; CGRC's Domain 1 (Risk Management Program) overlaps with CISSP's Security &amp; Risk Management and CISA's Governance domain. CGRC is narrower and more process-specific than either — it's less "know security broadly" and more "run the RMF life cycle correctly, end to end."</p>
+          <p style="padding:0 20px 18px;"><b>Issuer:</b> CGRC and CISSP are both issued by <b>(ISC)²</b>; CISA is issued by <b>ISACA</b>. Many GRC-track professionals hold CGRC alongside CISA or CISSP since the three reinforce rather than duplicate each other.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Do I need to renew the certification after passing?</summary>
+          <p>Yes — like other (ISC)² credentials, CGRC requires ongoing <b>Continuing Professional Education (CPE) credits</b> on a multi-year cycle, plus an annual maintenance fee, to stay active.</p>
+        </details>
+      </div>
+    </section>
+
+    <footer class="note">Simplified study companion to the (ISC)² CGRC exam outline and the NIST Risk Management Framework (SP 800-37, SP 800-53). For full technical detail and exam-style practice questions, refer back to the official study guide.</footer>
+  </main>
+</div>
+
+<script>
+(function(){
+  var toggle = document.getElementById('tocToggle');
+  var toc = document.getElementById('toc');
+  if(toggle){
+    toggle.addEventListener('click', function(){
+      toc.classList.toggle('open');
+    });
+  }
+  var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+  var sections = links.map(function(a){ return document.querySelector(a.getAttribute('href')); }).filter(Boolean);
+  function onScroll(){
+    var pos = window.scrollY + 120;
+    var current = sections[0];
+    sections.forEach(function(sec){ if(sec.offsetTop <= pos) current = sec; });
+    links.forEach(function(a){ a.classList.remove('active'); });
+    if(current){
+      var idx = sections.indexOf(current);
+      if(links[idx]) links[idx].classList.add('active');
+    }
+  }
+  document.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          e.target.classList.add('in-view');
+          var topics = e.target.querySelectorAll('.topic');
+          topics.forEach(function(t,i){
+            t.style.transitionDelay = (i*70)+'ms';
+            setTimeout(function(){ t.style.transitionDelay=''; }, 600+i*70);
+          });
+          io.unobserve(e.target);
+        }
+      });
+    }, {threshold:0.08, rootMargin:'0px 0px -60px 0px'});
+    document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in-view'); });
+  }
+})();
+</script>
+</body>
+</html>
