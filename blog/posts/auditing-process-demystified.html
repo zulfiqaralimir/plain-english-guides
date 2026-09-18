@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>The Auditing Process, Demystified — Plain English Blog</title>
+<style>
+:root{color-scheme:light dark;}
+body{margin:0;}
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap');
+
+:root{
+  --bg:#EEF1EF; --surface:#FFFFFF; --ink:#182126; --ink-soft:#4B5A5F; --line:#CCD5D2;
+  --accent-strong:#124957; --accent-tint:#DCEBEC;
+  --shadow:0 1px 2px rgba(18,73,87,.06), 0 6px 20px rgba(18,73,87,.06);
+  --tag:#1E6B7A; --tag-tint:#DCEBEC;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#12181B; --surface:#1A2226; --ink:#E8EDEC; --ink-soft:#A9B7B8; --line:#2C383C;
+    --accent-strong:#7FC4D0; --accent-tint:#1D3238;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+    --tag:#4FA9B8; --tag-tint:#1B3236;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12181B; --surface:#1A2226; --ink:#E8EDEC; --ink-soft:#A9B7B8; --line:#2C383C;
+  --accent-strong:#7FC4D0; --accent-tint:#1D3238;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+  --tag:#4FA9B8; --tag-tint:#1B3236;
+}
+
+*{box-sizing:border-box;}
+html{font-size:19px;}
+body{
+  background:var(--bg);color:var(--ink);
+  font-family:'Public Sans',system-ui,-apple-system,sans-serif;
+  line-height:1.6;-webkit-font-smoothing:antialiased;
+  min-height:100dvh;display:flex;flex-direction:column;
+}
+h1,h2,h3{font-family:'Source Serif 4',Georgia,'Times New Roman',serif;text-wrap:balance;margin:0;color:var(--ink);}
+a{color:var(--accent-strong);}
+code,.mono{font-family:'IBM Plex Mono',ui-monospace,monospace;}
+
+.wrap{max-width:680px;margin:0 auto;padding:56px 24px 40px;flex:1;width:100%;}
+.back{display:inline-block;font:600 .85rem 'Public Sans',sans-serif;color:var(--ink-soft);text-decoration:none;margin-bottom:26px;}
+.back:hover{color:var(--accent-strong);}
+
+.post-meta{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.tag{display:inline-block;font:600 .75rem 'IBM Plex Mono',monospace;letter-spacing:.06em;color:var(--tag);background:var(--tag-tint);padding:4px 9px;border-radius:5px;}
+.read-time{font-size:.82rem;color:var(--ink-soft);}
+
+h1.title{font-size:clamp(1.8rem,4.5vw,2.5rem);font-weight:700;max-width:20ch;}
+p.dek{margin-top:14px;font-size:1.12rem;color:var(--ink-soft);max-width:56ch;}
+
+article{margin-top:38px;font-size:1.05rem;}
+article h2{font-size:1.35rem;margin-top:38px;margin-bottom:14px;color:var(--tag);}
+article p{margin:0 0 16px;}
+article ul{margin:0 0 16px;padding-left:1.2em;}
+article li{margin:0 0 8px;}
+article b{color:var(--ink);}
+
+.callout{
+  margin:28px 0;padding:20px 22px;background:var(--surface);border:1px solid var(--line);
+  border-left:4px solid var(--tag);border-radius:10px;box-shadow:var(--shadow);
+}
+.callout .label{display:block;font:600 .78rem 'IBM Plex Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--tag);margin-bottom:8px;}
+.callout p{margin:0;}
+
+.post-footer{margin-top:44px;padding-top:24px;border-top:1px solid var(--line);}
+.post-footer a.guide-link{
+  display:inline-flex;align-items:center;gap:8px;font:600 .95rem 'Public Sans',sans-serif;
+  color:var(--tag);text-decoration:none;
+}
+.post-footer a.guide-link:hover{text-decoration:underline;}
+
+footer.note{border-top:1px solid var(--line);padding:20px 24px;text-align:center;font-size:.8rem;color:var(--ink-soft);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../">← Back to Blog</a>
+  <div class="post-meta"><span class="tag">CISA</span><span class="read-time">6 min read</span></div>
+  <h1 class="title">The Auditing Process, Demystified</h1>
+  <p class="dek">An IS audit isn't a surprise inspection — it's a sequence. Understanding the order of operations is half the battle, both on the exam and in the field.</p>
+
+  <article>
+    <p>New auditors (and plenty of exam-takers) picture an audit as "the day someone shows up and checks your controls." In reality, by the time anyone is sitting across from a system owner asking questions, most of the audit has already happened on paper. The process is a chain, and each link depends on the one before it.</p>
+
+    <h2>1. Planning comes before anything else</h2>
+    <p>Before an auditor looks at a single control, they define <b>scope and objectives</b>: what system or process is in scope, what risks matter most, and what standard they're auditing against. This stage produces the audit plan — timeline, resources, and a risk assessment that decides where the auditor will spend the most time. Skipping this and jumping straight to testing is the single most common way audits go wrong: without a defined scope, you can't tell a finding from noise.</p>
+
+    <h2>2. Evidence gathering: it has to be reliable, not just available</h2>
+    <p>Auditors gather evidence through interviews, document review, observation, and reperformance. Not all evidence is equal — the exam loves to test a simple hierarchy:</p>
+    <ul>
+      <li><b>Independently obtained evidence</b> (the auditor pulls the log themselves) beats evidence handed to them by the auditee.</li>
+      <li><b>Written evidence</b> beats a verbal explanation.</li>
+      <li><b>Evidence from a qualified, independent source</b> beats evidence from someone with a stake in the outcome.</li>
+    </ul>
+    <p>The underlying idea is auditor independence: the less the evidence depends on someone's say-so, the more it can be trusted.</p>
+
+    <h2>3. Testing: controls vs. substantive</h2>
+    <p>This is the distinction that shows up on almost every CISA exam attempt in some form.</p>
+    <ul>
+      <li><b>Tests of controls</b> ask: "does this control exist and operate as designed?" Example: checking whether access requests actually require manager approval by sampling a batch of tickets.</li>
+      <li><b>Substantive testing</b> asks: "is the data itself accurate and complete?" Example: recalculating account balances directly rather than trusting the control that's supposed to keep them correct.</li>
+    </ul>
+    <p>A useful shortcut: if a control test fails, the auditor's confidence in the data drops, and substantive testing usually has to expand to compensate. The two are connected, not interchangeable — the exam likes to describe a weak control and ask what happens to the substantive testing plan.</p>
+
+    <div class="callout">
+      <span class="label">Remember it as</span>
+      <p>Controls testing checks the <i>process</i>; substantive testing checks the <i>result</i>. A weak process means you can't trust the result without checking it directly.</p>
+    </div>
+
+    <h2>4. Sampling: you're never checking everything</h2>
+    <p>Auditors rarely review 100% of transactions — they sample. <b>Statistical sampling</b> uses mathematical, objective methods to select items and can be used to draw a defensible conclusion about the whole population. <b>Judgmental (non-statistical) sampling</b> relies on the auditor's experience to pick items — faster, but the results can't be mathematically extrapolated the same way. Knowing which one is being described, and what conclusion it does or doesn't support, is a recurring exam pattern.</p>
+
+    <h2>5. Reporting and follow-up</h2>
+    <p>Findings get written up with a clear structure: condition (what was found), criteria (what standard it should have met), cause (why it happened), and effect (what the impact is) — sometimes with a recommendation added as a fifth element. The report goes to management, who commits to remediation with owners and dates. Crucially, the audit isn't done when the report is issued: a <b>follow-up</b> phase later verifies that the agreed-upon fixes actually happened, rather than just trusting management's word for it.</p>
+
+    <p>Seen end to end, the process is really just: define what you're checking, gather trustworthy evidence, test it at the right depth, sample it defensibly, and then verify the fix actually landed. Every stage exists because skipping it would let something slip through unverified.</p>
+  </article>
+
+  <div class="post-footer">
+    <a class="guide-link" href="../../cisa/">See the full CISA in Plain English guide →</a>
+  </div>
+</div>
+<footer class="note">Short-form companion to the CISA guide — part of the <a href="../">Plain English blog</a>.</footer>
+</body>
+</html>

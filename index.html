@@ -22,6 +22,7 @@ body{margin:0;}
   --cisa:#1E6B7A; --cisa-tint:#DCEBEC;
   --cissp:#1B4F91; --cissp-tint:#DCE5F1;
   --grc:#6E3FA3; --grc-tint:#EDE1F5;
+  --blog:#B4791F; --blog-tint:#F5E5CC;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
@@ -32,6 +33,7 @@ body{margin:0;}
     --cisa:#4FA9B8; --cisa-tint:#1B3236;
     --cissp:#5B8FD6; --cissp-tint:#1D2A3A;
     --grc:#B98FE0; --grc-tint:#2E2140;
+    --blog:#E0B25F; --blog-tint:#332913;
   }
 }
 :root[data-theme="dark"]{
@@ -42,6 +44,7 @@ body{margin:0;}
   --cisa:#4FA9B8; --cisa-tint:#1B3236;
   --cissp:#5B8FD6; --cissp-tint:#1D2A3A;
   --grc:#B98FE0; --grc-tint:#2E2140;
+  --blog:#E0B25F; --blog-tint:#332913;
 }
 
 *{box-sizing:border-box;}
@@ -77,6 +80,7 @@ p.lede{margin-top:14px;max-width:56ch;font-size:1.1rem;color:var(--ink-soft);}
 .card.cisa{--cc:var(--cisa);--ct:var(--cisa-tint);}
 .card.cissp{--cc:var(--cissp);--ct:var(--cissp-tint);}
 .card.grc{--cc:var(--grc);--ct:var(--grc-tint);}
+.card.blog{--cc:var(--blog);--ct:var(--blog-tint);}
 .card:hover{transform:translateY(-4px);border-color:var(--cc);}
 .card .tag{
   display:inline-block;font:600 .78rem 'IBM Plex Mono',monospace;letter-spacing:.06em;
@@ -116,6 +120,12 @@ footer.note{
       <h2>GRC in Plain English</h2>
       <p>7 domains · governance, risk, and compliance via the Risk Management Framework.</p>
       <span class="go">Open guide →</span>
+    </a>
+    <a class="card blog" href="blog/">
+      <span class="tag">Blog</span>
+      <h2>Short Reads</h2>
+      <p>Focused explainers on the concepts exams get wrong the most — tagged by guide, filterable.</p>
+      <span class="go">Read posts →</span>
     </a>
   </div>
 </div>

@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>Choosing the "Best" Answer — Plain English Blog</title>
+<style>
+:root{color-scheme:light dark;}
+body{margin:0;}
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap');
+
+:root{
+  --bg:#EEF1EF; --surface:#FFFFFF; --ink:#182126; --ink-soft:#4B5A5F; --line:#CCD5D2;
+  --accent-strong:#124957; --accent-tint:#DCEBEC;
+  --shadow:0 1px 2px rgba(18,73,87,.06), 0 6px 20px rgba(18,73,87,.06);
+  --tag:#1B4F91; --tag-tint:#DCE5F1;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#12181B; --surface:#1A2226; --ink:#E8EDEC; --ink-soft:#A9B7B8; --line:#2C383C;
+    --accent-strong:#7FC4D0; --accent-tint:#1D3238;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+    --tag:#5B8FD6; --tag-tint:#1D2A3A;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12181B; --surface:#1A2226; --ink:#E8EDEC; --ink-soft:#A9B7B8; --line:#2C383C;
+  --accent-strong:#7FC4D0; --accent-tint:#1D3238;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+  --tag:#5B8FD6; --tag-tint:#1D2A3A;
+}
+
+*{box-sizing:border-box;}
+html{font-size:19px;}
+body{
+  background:var(--bg);color:var(--ink);
+  font-family:'Public Sans',system-ui,-apple-system,sans-serif;
+  line-height:1.6;-webkit-font-smoothing:antialiased;
+  min-height:100dvh;display:flex;flex-direction:column;
+}
+h1,h2,h3{font-family:'Source Serif 4',Georgia,'Times New Roman',serif;text-wrap:balance;margin:0;color:var(--ink);}
+a{color:var(--accent-strong);}
+code,.mono{font-family:'IBM Plex Mono',ui-monospace,monospace;}
+
+.wrap{max-width:680px;margin:0 auto;padding:56px 24px 40px;flex:1;width:100%;}
+.back{display:inline-block;font:600 .85rem 'Public Sans',sans-serif;color:var(--ink-soft);text-decoration:none;margin-bottom:26px;}
+.back:hover{color:var(--accent-strong);}
+
+.post-meta{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.tag{display:inline-block;font:600 .75rem 'IBM Plex Mono',monospace;letter-spacing:.06em;color:var(--tag);background:var(--tag-tint);padding:4px 9px;border-radius:5px;}
+.read-time{font-size:.82rem;color:var(--ink-soft);}
+
+h1.title{font-size:clamp(1.8rem,4.5vw,2.5rem);font-weight:700;max-width:22ch;}
+p.dek{margin-top:14px;font-size:1.12rem;color:var(--ink-soft);max-width:56ch;}
+
+article{margin-top:38px;font-size:1.05rem;}
+article h2{font-size:1.35rem;margin-top:38px;margin-bottom:14px;color:var(--tag);}
+article p{margin:0 0 16px;}
+article ul{margin:0 0 16px;padding-left:1.2em;}
+article ol{margin:0 0 16px;padding-left:1.2em;}
+article li{margin:0 0 8px;}
+article b{color:var(--ink);}
+
+.callout{
+  margin:28px 0;padding:20px 22px;background:var(--surface);border:1px solid var(--line);
+  border-left:4px solid var(--tag);border-radius:10px;box-shadow:var(--shadow);
+}
+.callout .label{display:block;font:600 .78rem 'IBM Plex Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--tag);margin-bottom:8px;}
+.callout p{margin:0;}
+
+.post-footer{margin-top:44px;padding-top:24px;border-top:1px solid var(--line);}
+.post-footer a.guide-link{display:inline-flex;align-items:center;gap:8px;font:600 .95rem 'Public Sans',sans-serif;color:var(--tag);text-decoration:none;}
+.post-footer a.guide-link:hover{text-decoration:underline;}
+
+footer.note{border-top:1px solid var(--line);padding:20px 24px;text-align:center;font-size:.8rem;color:var(--ink-soft);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../">← Back to Blog</a>
+  <div class="post-meta"><span class="tag">CISSP</span><span class="read-time">7 min read</span></div>
+  <h1 class="title">Choosing the "Best" Answer: How to Think Like CISSP Wants You To</h1>
+  <p class="dek">Every option on a CISSP question is defensible. Only one is what a security manager, accountable to a real organization, would actually choose first.</p>
+
+  <article>
+    <p>The most common complaint about the CISSP exam is that "all four answers look correct." That's not a flaw in the exam — it's the point. CISSP is a management-level certification, and the questions are built to separate someone who knows security facts from someone who can make a security <i>decision</i>. Once you know what lens the exam wants you to look through, the "best" answer usually becomes obvious.</p>
+
+    <h2>You're the manager, not the technician</h2>
+    <p>CISSP questions are written from the perspective of a person responsible for the whole program, not the person configuring the box. If a question describes a vulnerability, the tempting answer is often the specific technical fix. The better answer is frequently the one that addresses it at a policy or process level, because a manager's job is to make sure the fix happens reliably and repeatedly — not to personally patch one server.</p>
+
+    <h2>Prefer prevention, then detection, then correction</h2>
+    <p>When multiple answers are all legitimate control types, CISSP generally favors them in this order:</p>
+    <ol>
+      <li><b>Preventive</b> controls (stop the bad thing before it happens) rank highest — cheaper and safer than cleaning up afterward.</li>
+      <li><b>Detective</b> controls (notice it happened) come next — necessary because no preventive control is perfect.</li>
+      <li><b>Corrective</b> controls (fix it after the fact) rank last as a "best" answer, though they're still necessary as a safety net.</li>
+    </ol>
+    <p>This isn't an absolute rule — sometimes the scenario has already ruled out prevention as impractical — but as a tiebreaker between otherwise-similar answers, it's reliable.</p>
+
+    <h2>People and process before technology</h2>
+    <p>If an option fixes the immediate technical symptom and another option addresses the underlying process gap (a missing policy, missing training, a broken approval workflow), CISSP usually wants the process fix. A technical patch solves this one instance; a process fix prevents the next hundred instances. The exam is checking whether you default to sustainable, governance-level thinking rather than firefighting.</p>
+
+    <h2>Business alignment beats "most secure"</h2>
+    <p>This is the one that trips up technically strong candidates the hardest: the most secure option is not always the best answer. Security exists to support business objectives, not the other way around. If an answer describes airtight security that would make the business function impossible (locking out all remote access, for instance), it's rarely the "best" choice — the best answer balances risk reduction against what the business actually needs to operate.</p>
+
+    <div class="callout">
+      <span class="label">Remember it as</span>
+      <p>Ask "what would a security manager accountable to the business actually approve?" — not "what is technically the most locked-down option?" Those are frequently different answers.</p>
+    </div>
+
+    <h2>A short mental checklist</h2>
+    <ul>
+      <li>Is this a management-level decision or a technician-level task? Favor the management framing.</li>
+      <li>Does one option prevent the issue while another only detects or corrects it? Favor prevention, all else equal.</li>
+      <li>Does one option fix a process gap rather than a single instance? Favor the process fix.</li>
+      <li>Does one option over-secure at the cost of the business being able to function? That's usually a trap answer.</li>
+      <li>Is there a "do nothing until we assess risk first" option when the scenario hasn't given you a completed risk assessment? That's often correct — CISSP rewards not skipping steps.</li>
+    </ul>
+
+    <p>None of this replaces knowing the material — you still need to know what a preventive control is, or what due diligence means, to apply any of this. But once the facts are there, this lens is what turns "four correct-sounding answers" into one clearly best answer.</p>
+  </article>
+
+  <div class="post-footer">
+    <a class="guide-link" href="../../cissp/">See the full CISSP in Plain English guide →</a>
+  </div>
+</div>
+<footer class="note">Short-form companion to the CISSP guide — part of the <a href="../">Plain English blog</a>.</footer>
+</body>
+</html>

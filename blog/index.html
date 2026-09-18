@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Blog — Plain English Study Guides</title>
+<style>
+:root{color-scheme:light dark;}
+body{margin:0;}
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap');
+
+:root{
+  --bg:#EEF1EF;
+  --surface:#FFFFFF;
+  --ink:#182126;
+  --ink-soft:#4B5A5F;
+  --line:#CCD5D2;
+  --accent-strong:#124957;
+  --accent-tint:#DCEBEC;
+  --shadow:0 1px 2px rgba(18,73,87,.06), 0 6px 20px rgba(18,73,87,.06);
+  --cisa:#1E6B7A; --cisa-tint:#DCEBEC;
+  --cissp:#1B4F91; --cissp-tint:#DCE5F1;
+  --grc:#6E3FA3; --grc-tint:#EDE1F5;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#12181B; --surface:#1A2226;
+    --ink:#E8EDEC; --ink-soft:#A9B7B8; --line:#2C383C;
+    --accent-strong:#7FC4D0; --accent-tint:#1D3238;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+    --cisa:#4FA9B8; --cisa-tint:#1B3236;
+    --cissp:#5B8FD6; --cissp-tint:#1D2A3A;
+    --grc:#B98FE0; --grc-tint:#2E2140;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12181B; --surface:#1A2226;
+  --ink:#E8EDEC; --ink-soft:#A9B7B8; --line:#2C383C;
+  --accent-strong:#7FC4D0; --accent-tint:#1D3238;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+  --cisa:#4FA9B8; --cisa-tint:#1B3236;
+  --cissp:#5B8FD6; --cissp-tint:#1D2A3A;
+  --grc:#B98FE0; --grc-tint:#2E2140;
+}
+
+*{box-sizing:border-box;}
+html{font-size:19px;}
+body{
+  background:var(--bg);color:var(--ink);
+  font-family:'Public Sans',system-ui,-apple-system,sans-serif;
+  line-height:1.55;-webkit-font-smoothing:antialiased;
+  min-height:100dvh;display:flex;flex-direction:column;
+}
+h1,h2{font-family:'Source Serif 4',Georgia,'Times New Roman',serif;text-wrap:balance;margin:0;}
+a{color:inherit;}
+
+.wrap{max-width:920px;margin:0 auto;padding:64px 24px 40px;flex:1;width:100%;}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font:600 12px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--accent-strong);background:var(--accent-tint);
+  padding:6px 10px;border-radius:5px;margin-bottom:18px;
+}
+.back{display:inline-block;font:600 .85rem 'Public Sans',sans-serif;color:var(--ink-soft);text-decoration:none;margin-bottom:22px;}
+.back:hover{color:var(--accent-strong);}
+h1{font-size:clamp(2rem,5vw,2.8rem);font-weight:700;max-width:18ch;}
+p.lede{margin-top:14px;max-width:60ch;font-size:1.1rem;color:var(--ink-soft);}
+
+/* filter bar */
+.filters{display:flex;flex-wrap:wrap;gap:10px;margin-top:36px;}
+.filter-btn{
+  font:600 .85rem 'IBM Plex Mono',monospace;letter-spacing:.03em;
+  border:1px solid var(--line);background:var(--surface);color:var(--ink-soft);
+  padding:8px 14px;border-radius:999px;cursor:pointer;
+  transition:border-color .2s ease,color .2s ease,background .2s ease;
+}
+.filter-btn:hover{border-color:var(--accent-strong);color:var(--accent-strong);}
+.filter-btn.active{background:var(--accent-strong);border-color:var(--accent-strong);color:var(--surface);}
+.filter-btn[data-tag="cisa"].active{background:var(--cisa);border-color:var(--cisa);}
+.filter-btn[data-tag="cissp"].active{background:var(--cissp);border-color:var(--cissp);}
+.filter-btn[data-tag="grc"].active{background:var(--grc);border-color:var(--grc);}
+.filter-btn .count{opacity:.75;font-weight:500;}
+
+.posts{display:grid;grid-template-columns:1fr;gap:18px;margin-top:32px;}
+
+.post-card{
+  display:block;text-decoration:none;color:inherit;
+  background:var(--surface);border:1px solid var(--line);border-radius:16px;
+  padding:26px 28px;box-shadow:var(--shadow);
+  transition:transform .2s ease,border-color .2s ease;
+  --cc:var(--accent-strong);--ct:var(--accent-tint);
+}
+.post-card[data-tag="cisa"]{--cc:var(--cisa);--ct:var(--cisa-tint);}
+.post-card[data-tag="cissp"]{--cc:var(--cissp);--ct:var(--cissp-tint);}
+.post-card[data-tag="grc"]{--cc:var(--grc);--ct:var(--grc-tint);}
+.post-card:hover{transform:translateY(-3px);border-color:var(--cc);}
+.post-card.hidden{display:none;}
+.post-meta{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.post-card .tag{
+  display:inline-block;font:600 .75rem 'IBM Plex Mono',monospace;letter-spacing:.06em;
+  color:var(--cc);background:var(--ct);padding:4px 9px;border-radius:5px;
+}
+.post-card .read-time{font-size:.82rem;color:var(--ink-soft);}
+.post-card h2{font-size:1.35rem;color:var(--ink);}
+.post-card:hover h2{color:var(--cc);}
+.post-card p{margin:10px 0 0;color:var(--ink-soft);font-size:1rem;}
+.post-card .go{margin-top:16px;display:inline-block;font:600 .92rem 'Public Sans',sans-serif;color:var(--cc);}
+
+.empty-state{display:none;padding:40px 0;text-align:center;color:var(--ink-soft);}
+.empty-state.show{display:block;}
+
+footer.note{
+  border-top:1px solid var(--line);padding:20px 24px;text-align:center;
+  font-size:.8rem;color:var(--ink-soft);
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../">← Plain English Study Guides</a>
+  <span class="eyebrow">Blog</span>
+  <h1>Short reads on the ideas exams actually test</h1>
+  <p class="lede">Focused explainers that dig into one concept at a time — the ones test-takers usually mix up. Filter by guide, or read them all.</p>
+
+  <div class="filters" id="filters">
+    <button class="filter-btn active" data-tag="all">All <span class="count">(6)</span></button>
+    <button class="filter-btn" data-tag="cisa">CISA <span class="count">(2)</span></button>
+    <button class="filter-btn" data-tag="cissp">CISSP <span class="count">(2)</span></button>
+    <button class="filter-btn" data-tag="grc">GRC <span class="count">(2)</span></button>
+  </div>
+
+  <div class="posts" id="posts">
+    <a class="post-card" data-tag="cisa" href="posts/auditing-process-demystified.html">
+      <div class="post-meta"><span class="tag">CISA</span><span class="read-time">6 min read</span></div>
+      <h2>The Auditing Process, Demystified</h2>
+      <p>Planning, evidence, testing, and reporting — how an IS audit actually moves from kickoff to opinion, and why the order matters.</p>
+      <span class="go">Read post →</span>
+    </a>
+    <a class="post-card" data-tag="cisa" href="posts/governance-vs-management.html">
+      <div class="post-meta"><span class="tag">CISA</span><span class="read-time">5 min read</span></div>
+      <h2>Governance vs. Management: The CISA Distinction That Trips Everyone Up</h2>
+      <p>Two words that sound interchangeable in everyday speech but mean very different things on the exam — and in a real audit finding.</p>
+      <span class="go">Read post →</span>
+    </a>
+    <a class="post-card" data-tag="cissp" href="posts/cia-triad-in-practice.html">
+      <div class="post-meta"><span class="tag">CISSP</span><span class="read-time">6 min read</span></div>
+      <h2>The CIA Triad in Practice</h2>
+      <p>Confidentiality, integrity, and availability are easy to define and hard to balance. What the tradeoffs actually look like.</p>
+      <span class="go">Read post →</span>
+    </a>
+    <a class="post-card" data-tag="cissp" href="posts/choosing-the-best-answer.html">
+      <div class="post-meta"><span class="tag">CISSP</span><span class="read-time">7 min read</span></div>
+      <h2>Choosing the "Best" Answer: How to Think Like CISSP Wants You To</h2>
+      <p>Several answers are technically correct. Only one is what a security manager would actually do. Here's the mindset that finds it.</p>
+      <span class="go">Read post →</span>
+    </a>
+    <a class="post-card" data-tag="grc" href="posts/rmf-paper-trail.html">
+      <div class="post-meta"><span class="tag">GRC</span><span class="read-time">6 min read</span></div>
+      <h2>ATO, SSP, SAR, POA&amp;M: Making Sense of the RMF Paper Trail</h2>
+      <p>Four acronyms, one document lifecycle. What each artifact is for, who writes it, and what happens if it's missing.</p>
+      <span class="go">Read post →</span>
+    </a>
+    <a class="post-card" data-tag="grc" href="posts/governance-risk-compliance-three-jobs.html">
+      <div class="post-meta"><span class="tag">GRC</span><span class="read-time">5 min read</span></div>
+      <h2>Governance, Risk, and Compliance: Why They're Three Different Jobs</h2>
+      <p>GRC gets said as one word, but it's three distinct functions with different owners and different failure modes.</p>
+      <span class="go">Read post →</span>
+    </a>
+  </div>
+
+  <p class="empty-state" id="emptyState">No posts for this tag yet.</p>
+</div>
+<footer class="note">Short-form companions to the CISA, CISSP, and GRC guides — see the <a href="../" style="color:var(--accent-strong);">full study guides</a> for complete domain coverage.</footer>
+
+<script>
+(function(){
+  var buttons = document.querySelectorAll('.filter-btn');
+  var cards = document.querySelectorAll('.post-card');
+  var emptyState = document.getElementById('emptyState');
+
+  function applyFilter(tag){
+    var visible = 0;
+    cards.forEach(function(card){
+      var match = tag === 'all' || card.getAttribute('data-tag') === tag;
+      card.classList.toggle('hidden', !match);
+      if(match) visible++;
+    });
+    emptyState.classList.toggle('show', visible === 0);
+    buttons.forEach(function(btn){
+      btn.classList.toggle('active', btn.getAttribute('data-tag') === tag);
+    });
+  }
+
+  buttons.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var tag = btn.getAttribute('data-tag');
+      var hash = tag === 'all' ? '' : '#' + tag;
+      if(history.pushState){ history.pushState(null, '', location.pathname + hash); }
+      else { location.hash = hash; }
+      applyFilter(tag);
+    });
+  });
+
+  var initial = location.hash.replace('#', '') || 'all';
+  var known = ['all','cisa','cissp','grc'];
+  applyFilter(known.indexOf(initial) !== -1 ? initial : 'all');
+
+  window.addEventListener('hashchange', function(){
+    var tag = location.hash.replace('#', '') || 'all';
+    applyFilter(known.indexOf(tag) !== -1 ? tag : 'all');
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>Governance, Risk, and Compliance: Three Jobs — Plain English Blog</title>
+<style>
+:root{color-scheme:light dark;}
+body{margin:0;}
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap');
+
+:root{
+  --bg:#EEF1EF; --surface:#FFFFFF; --ink:#182126; --ink-soft:#4B5A5F; --line:#CCD5D2;
+  --accent-strong:#124957; --accent-tint:#DCEBEC;
+  --shadow:0 1px 2px rgba(18,73,87,.06), 0 6px 20px rgba(18,73,87,.06);
+  --tag:#6E3FA3; --tag-tint:#EDE1F5;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#12181B; --surface:#1A2226; --ink:#E8EDEC; --ink-soft:#A9B7B8; --line:#2C383C;
+    --accent-strong:#7FC4D0; --accent-tint:#1D3238;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+    --tag:#B98FE0; --tag-tint:#2E2140;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12181B; --surface:#1A2226; --ink:#E8EDEC; --ink-soft:#A9B7B8; --line:#2C383C;
+  --accent-strong:#7FC4D0; --accent-tint:#1D3238;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+  --tag:#B98FE0; --tag-tint:#2E2140;
+}
+
+*{box-sizing:border-box;}
+html{font-size:19px;}
+body{
+  background:var(--bg);color:var(--ink);
+  font-family:'Public Sans',system-ui,-apple-system,sans-serif;
+  line-height:1.6;-webkit-font-smoothing:antialiased;
+  min-height:100dvh;display:flex;flex-direction:column;
+}
+h1,h2,h3{font-family:'Source Serif 4',Georgia,'Times New Roman',serif;text-wrap:balance;margin:0;color:var(--ink);}
+a{color:var(--accent-strong);}
+code,.mono{font-family:'IBM Plex Mono',ui-monospace,monospace;}
+
+.wrap{max-width:680px;margin:0 auto;padding:56px 24px 40px;flex:1;width:100%;}
+.back{display:inline-block;font:600 .85rem 'Public Sans',sans-serif;color:var(--ink-soft);text-decoration:none;margin-bottom:26px;}
+.back:hover{color:var(--accent-strong);}
+
+.post-meta{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.tag{display:inline-block;font:600 .75rem 'IBM Plex Mono',monospace;letter-spacing:.06em;color:var(--tag);background:var(--tag-tint);padding:4px 9px;border-radius:5px;}
+.read-time{font-size:.82rem;color:var(--ink-soft);}
+
+h1.title{font-size:clamp(1.8rem,4.5vw,2.5rem);font-weight:700;max-width:22ch;}
+p.dek{margin-top:14px;font-size:1.12rem;color:var(--ink-soft);max-width:56ch;}
+
+article{margin-top:38px;font-size:1.05rem;}
+article h2{font-size:1.35rem;margin-top:38px;margin-bottom:14px;color:var(--tag);}
+article p{margin:0 0 16px;}
+article ul{margin:0 0 16px;padding-left:1.2em;}
+article li{margin:0 0 8px;}
+article b{color:var(--ink);}
+
+table.compare{width:100%;border-collapse:collapse;margin:8px 0 20px;font-size:.96rem;}
+table.compare th,table.compare td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+table.compare th{font:600 .74rem 'IBM Plex Mono',monospace;letter-spacing:.05em;text-transform:uppercase;color:var(--tag);}
+
+.callout{
+  margin:28px 0;padding:20px 22px;background:var(--surface);border:1px solid var(--line);
+  border-left:4px solid var(--tag);border-radius:10px;box-shadow:var(--shadow);
+}
+.callout .label{display:block;font:600 .78rem 'IBM Plex Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--tag);margin-bottom:8px;}
+.callout p{margin:0;}
+
+.post-footer{margin-top:44px;padding-top:24px;border-top:1px solid var(--line);}
+.post-footer a.guide-link{display:inline-flex;align-items:center;gap:8px;font:600 .95rem 'Public Sans',sans-serif;color:var(--tag);text-decoration:none;}
+.post-footer a.guide-link:hover{text-decoration:underline;}
+
+footer.note{border-top:1px solid var(--line);padding:20px 24px;text-align:center;font-size:.8rem;color:var(--ink-soft);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../">← Back to Blog</a>
+  <div class="post-meta"><span class="tag">GRC</span><span class="read-time">5 min read</span></div>
+  <h1 class="title">Governance, Risk, and Compliance: Why They're Three Different Jobs</h1>
+  <p class="dek">"GRC" rolls off the tongue as one word, one team, one tool suite. But governance, risk, and compliance answer three different questions, and conflating them is where programs quietly break.</p>
+
+  <article>
+    <p>It's easy to see why the three get bundled together — they all involve policies, all involve risk in some sense, and in a lot of organizations one small team owns all three. But treating them as interchangeable is exactly the mistake that leads to programs that are "compliant" on paper while remaining genuinely risky, or "low-risk" on a heatmap while quietly violating a regulation nobody re-checked.</p>
+
+    <table class="compare">
+      <tr><th>Governance</th><th>Risk</th><th>Compliance</th></tr>
+      <tr><td>Sets direction and decision rights</td><td>Identifies and prioritizes uncertainty</td><td>Verifies rules are being followed</td></tr>
+      <tr><td>"What are we trying to achieve, and who decides?"</td><td>"What could stop us, and how bad would it be?"</td><td>"Are we meeting the requirement, yes or no?"</td></tr>
+      <tr><td>Ongoing, strategic</td><td>Continuous, prioritized, judgment-based</td><td>Point-in-time, binary, evidence-based</td></tr>
+    </table>
+
+    <h2>Governance: the "why" and "who decides"</h2>
+    <p>Governance is the structure of accountability — who has authority to make which decisions, what the organization's objectives are, and how those objectives cascade into policy. Governance doesn't ask "is this risky" or "is this compliant"; it asks whether the organization has a coherent structure for making those calls consistently at all. A company with excellent risk management and airtight compliance but no clear governance structure will still make inconsistent decisions, because no one has clearly defined who's accountable for what.</p>
+
+    <h2>Risk: the "what could go wrong, and how much do we care"</h2>
+    <p>Risk management is the ongoing discipline of identifying threats and vulnerabilities, estimating their likelihood and impact, and deciding whether to accept, mitigate, transfer, or avoid each one. Risk is inherently a judgment call — two equally competent risk managers can reasonably rank the same threat differently based on the organization's risk appetite. Risk management is forward-looking and continuous: yesterday's low-risk item can become tomorrow's high-risk item without anything in your control environment technically changing, just because the threat landscape moved.</p>
+
+    <h2>Compliance: the "did we meet the bar"</h2>
+    <p>Compliance is narrower and far more binary: does the organization meet a specific external or internal requirement — a law, regulation, contractual clause, or internal policy? Unlike risk, compliance isn't really a matter of appetite. You don't get to decide you're "moderately compliant" with a regulation the way you can decide you're moderately risk-tolerant. You either meet the control requirement or you have a documented gap and, usually, a deadline to close it.</p>
+
+    <h2>Where the confusion causes real damage</h2>
+    <p>The dangerous failure mode is treating compliance as a stand-in for risk management. A system can pass every compliance checklist and still carry serious unaddressed risk, because compliance requirements are written to a point in time and don't automatically keep pace with a changing threat landscape. Equally, a system can be well-managed from a risk perspective — actively monitored, quickly patched — while still being technically non-compliant with a specific contractual clause nobody re-read after a vendor change. "Compliant" and "low-risk" are correlated, not synonymous, and an organization that only tracks one will eventually get blindsided by the other.</p>
+
+    <div class="callout">
+      <span class="label">Remember it as</span>
+      <p>Governance decides who's accountable and for what. Risk decides how much a given threat should worry you. Compliance checks whether you met a specific, pre-written bar. A program can succeed at one and quietly fail at the other two.</p>
+    </div>
+
+    <p>Once these three are separated in your head, GRC frameworks stop looking like redundant bureaucracy and start looking like what they actually are: three different lenses, each catching a failure mode the other two would miss on their own.</p>
+  </article>
+
+  <div class="post-footer">
+    <a class="guide-link" href="../../grc/">See the full GRC in Plain English guide →</a>
+  </div>
+</div>
+<footer class="note">Short-form companion to the GRC guide — part of the <a href="../">Plain English blog</a>.</footer>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>ATO, SSP, SAR, POA&amp;M — Plain English Blog</title>
+<style>
+:root{color-scheme:light dark;}
+body{margin:0;}
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap');
+
+:root{
+  --bg:#EEF1EF; --surface:#FFFFFF; --ink:#182126; --ink-soft:#4B5A5F; --line:#CCD5D2;
+  --accent-strong:#124957; --accent-tint:#DCEBEC;
+  --shadow:0 1px 2px rgba(18,73,87,.06), 0 6px 20px rgba(18,73,87,.06);
+  --tag:#6E3FA3; --tag-tint:#EDE1F5;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#12181B; --surface:#1A2226; --ink:#E8EDEC; --ink-soft:#A9B7B8; --line:#2C383C;
+    --accent-strong:#7FC4D0; --accent-tint:#1D3238;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+    --tag:#B98FE0; --tag-tint:#2E2140;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12181B; --surface:#1A2226; --ink:#E8EDEC; --ink-soft:#A9B7B8; --line:#2C383C;
+  --accent-strong:#7FC4D0; --accent-tint:#1D3238;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+  --tag:#B98FE0; --tag-tint:#2E2140;
+}
+
+*{box-sizing:border-box;}
+html{font-size:19px;}
+body{
+  background:var(--bg);color:var(--ink);
+  font-family:'Public Sans',system-ui,-apple-system,sans-serif;
+  line-height:1.6;-webkit-font-smoothing:antialiased;
+  min-height:100dvh;display:flex;flex-direction:column;
+}
+h1,h2,h3{font-family:'Source Serif 4',Georgia,'Times New Roman',serif;text-wrap:balance;margin:0;color:var(--ink);}
+a{color:var(--accent-strong);}
+code,.mono{font-family:'IBM Plex Mono',ui-monospace,monospace;}
+
+.wrap{max-width:680px;margin:0 auto;padding:56px 24px 40px;flex:1;width:100%;}
+.back{display:inline-block;font:600 .85rem 'Public Sans',sans-serif;color:var(--ink-soft);text-decoration:none;margin-bottom:26px;}
+.back:hover{color:var(--accent-strong);}
+
+.post-meta{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.tag{display:inline-block;font:600 .75rem 'IBM Plex Mono',monospace;letter-spacing:.06em;color:var(--tag);background:var(--tag-tint);padding:4px 9px;border-radius:5px;}
+.read-time{font-size:.82rem;color:var(--ink-soft);}
+
+h1.title{font-size:clamp(1.8rem,4.5vw,2.5rem);font-weight:700;max-width:22ch;}
+p.dek{margin-top:14px;font-size:1.12rem;color:var(--ink-soft);max-width:56ch;}
+
+article{margin-top:38px;font-size:1.05rem;}
+article h2{font-size:1.35rem;margin-top:38px;margin-bottom:14px;color:var(--tag);}
+article p{margin:0 0 16px;}
+article ul{margin:0 0 16px;padding-left:1.2em;}
+article li{margin:0 0 8px;}
+article b{color:var(--ink);}
+
+.doc-flow{display:flex;flex-direction:column;gap:10px;margin:8px 0 24px;}
+.doc-step{display:grid;grid-template-columns:74px 1fr;gap:14px;padding:14px 16px;background:var(--surface);border:1px solid var(--line);border-radius:10px;align-items:start;}
+.doc-step .abbr{font:700 .95rem 'IBM Plex Mono',monospace;color:var(--tag);}
+.doc-step p{margin:0;font-size:.96rem;color:var(--ink-soft);}
+.doc-step p b{color:var(--ink);}
+
+.callout{
+  margin:28px 0;padding:20px 22px;background:var(--surface);border:1px solid var(--line);
+  border-left:4px solid var(--tag);border-radius:10px;box-shadow:var(--shadow);
+}
+.callout .label{display:block;font:600 .78rem 'IBM Plex Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--tag);margin-bottom:8px;}
+.callout p{margin:0;}
+
+.post-footer{margin-top:44px;padding-top:24px;border-top:1px solid var(--line);}
+.post-footer a.guide-link{display:inline-flex;align-items:center;gap:8px;font:600 .95rem 'Public Sans',sans-serif;color:var(--tag);text-decoration:none;}
+.post-footer a.guide-link:hover{text-decoration:underline;}
+
+footer.note{border-top:1px solid var(--line);padding:20px 24px;text-align:center;font-size:.8rem;color:var(--ink-soft);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../">← Back to Blog</a>
+  <div class="post-meta"><span class="tag">GRC</span><span class="read-time">6 min read</span></div>
+  <h1 class="title">ATO, SSP, SAR, POA&amp;M: Making Sense of the RMF Paper Trail</h1>
+  <p class="dek">The Risk Management Framework produces a lot of acronyms. They're not bureaucratic noise — each one is a specific document, written by a specific person, that a decision depends on.</p>
+
+  <article>
+    <p>If you're new to the RMF, the acronym soup feels like the hardest part. It isn't, really — once you see that these four documents map to four simple questions asked in sequence, the whole paper trail clicks into place: what are we building, what did we build, what's wrong with it, and what are we doing about what's wrong.</p>
+
+    <div class="doc-flow">
+      <div class="doc-step">
+        <span class="abbr">SSP</span>
+        <p><b>System Security Plan</b> — "What are we building, and how are we securing it?" Written by the system owner during the <i>Categorize</i> and <i>Select</i> steps, the SSP describes the system's boundaries, the security controls selected for it, and how each control is implemented. It's the baseline document everything else refers back to.</p>
+      </div>
+      <div class="doc-step">
+        <span class="abbr">SAR</span>
+        <p><b>Security Assessment Report</b> — "What did an independent assessor actually find?" Produced during the <i>Assess</i> step by an assessor who did <b>not</b> write the SSP (independence matters here, same as in an audit). The SAR documents which controls were tested, how, and whether each one is satisfied, partially satisfied, or not satisfied.</p>
+      </div>
+      <div class="doc-step">
+        <span class="abbr">POA&amp;M</span>
+        <p><b>Plan of Action and Milestones</b> — "What are we doing about the gaps the SAR found?" For every control the SAR flagged as weak or missing, the POA&amp;M tracks the remediation plan, the resources assigned, and a completion date. It's a living document — it gets updated as fixes land, not written once and filed away.</p>
+      </div>
+      <div class="doc-step">
+        <span class="abbr">ATO</span>
+        <p><b>Authorization to Operate</b> — "Given all of the above, can this system run?" The Authorizing Official reviews the SSP, SAR, and POA&amp;M together and makes a formal risk-acceptance decision. An ATO isn't a statement that the system is perfectly secure — it's a statement that a specific accountable person has reviewed the known risk and accepted it on the organization's behalf.</p>
+      </div>
+    </div>
+
+    <h2>Why the order matters</h2>
+    <p>Each document depends on the one before it existing and being accurate. An assessor can't write a meaningful SAR without a complete SSP describing what should be tested. An Authorizing Official can't issue a defensible ATO without both a SAR describing the current state and a POA&amp;M describing the plan for anything that's not yet fixed. Skip a step, and the ATO decision is being made on incomplete information — which is exactly the kind of gap an auditor or inspector general will find later.</p>
+
+    <h2>The part people miss: it doesn't end at the ATO</h2>
+    <p>A common misconception is that the ATO is the finish line. In practice, RMF's final step is <i>Monitor</i> — continuous monitoring keeps the SSP, SAR findings, and POA&amp;M current for the life of the system, because an ATO is typically time-bound (often three years, or continuous with ongoing monitoring in more modern implementations) and is only as trustworthy as the documentation behind it stays accurate.</p>
+
+    <div class="callout">
+      <span class="label">Remember it as</span>
+      <p>SSP describes the plan, SAR grades the plan, POA&amp;M fixes what the grade flagged, and the ATO is one person formally accepting whatever risk is left. All four have to exist, in that order, for the authorization to mean anything.</p>
+    </div>
+
+    <p>Once you can name who authors each document and what question it's answering, RMF stops being an acronym-memorization exercise and starts reading as what it actually is: a paper trail designed to make a risk decision defensible after the fact.</p>
+  </article>
+
+  <div class="post-footer">
+    <a class="guide-link" href="../../grc/">See the full GRC in Plain English guide →</a>
+  </div>
+</div>
+<footer class="note">Short-form companion to the GRC guide — part of the <a href="../">Plain English blog</a>.</footer>
+</body>
+</html>

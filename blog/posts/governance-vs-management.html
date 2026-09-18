@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>Governance vs. Management — Plain English Blog</title>
+<style>
+:root{color-scheme:light dark;}
+body{margin:0;}
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap');
+
+:root{
+  --bg:#EEF1EF; --surface:#FFFFFF; --ink:#182126; --ink-soft:#4B5A5F; --line:#CCD5D2;
+  --accent-strong:#124957; --accent-tint:#DCEBEC;
+  --shadow:0 1px 2px rgba(18,73,87,.06), 0 6px 20px rgba(18,73,87,.06);
+  --tag:#1E6B7A; --tag-tint:#DCEBEC;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#12181B; --surface:#1A2226; --ink:#E8EDEC; --ink-soft:#A9B7B8; --line:#2C383C;
+    --accent-strong:#7FC4D0; --accent-tint:#1D3238;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+    --tag:#4FA9B8; --tag-tint:#1B3236;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12181B; --surface:#1A2226; --ink:#E8EDEC; --ink-soft:#A9B7B8; --line:#2C383C;
+  --accent-strong:#7FC4D0; --accent-tint:#1D3238;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+  --tag:#4FA9B8; --tag-tint:#1B3236;
+}
+
+*{box-sizing:border-box;}
+html{font-size:19px;}
+body{
+  background:var(--bg);color:var(--ink);
+  font-family:'Public Sans',system-ui,-apple-system,sans-serif;
+  line-height:1.6;-webkit-font-smoothing:antialiased;
+  min-height:100dvh;display:flex;flex-direction:column;
+}
+h1,h2,h3{font-family:'Source Serif 4',Georgia,'Times New Roman',serif;text-wrap:balance;margin:0;color:var(--ink);}
+a{color:var(--accent-strong);}
+code,.mono{font-family:'IBM Plex Mono',ui-monospace,monospace;}
+
+.wrap{max-width:680px;margin:0 auto;padding:56px 24px 40px;flex:1;width:100%;}
+.back{display:inline-block;font:600 .85rem 'Public Sans',sans-serif;color:var(--ink-soft);text-decoration:none;margin-bottom:26px;}
+.back:hover{color:var(--accent-strong);}
+
+.post-meta{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.tag{display:inline-block;font:600 .75rem 'IBM Plex Mono',monospace;letter-spacing:.06em;color:var(--tag);background:var(--tag-tint);padding:4px 9px;border-radius:5px;}
+.read-time{font-size:.82rem;color:var(--ink-soft);}
+
+h1.title{font-size:clamp(1.8rem,4.5vw,2.5rem);font-weight:700;max-width:22ch;}
+p.dek{margin-top:14px;font-size:1.12rem;color:var(--ink-soft);max-width:56ch;}
+
+article{margin-top:38px;font-size:1.05rem;}
+article h2{font-size:1.35rem;margin-top:38px;margin-bottom:14px;color:var(--tag);}
+article p{margin:0 0 16px;}
+article ul{margin:0 0 16px;padding-left:1.2em;}
+article li{margin:0 0 8px;}
+article b{color:var(--ink);}
+
+table.compare{width:100%;border-collapse:collapse;margin:8px 0 20px;font-size:.98rem;}
+table.compare th,table.compare td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+table.compare th{font:600 .78rem 'IBM Plex Mono',monospace;letter-spacing:.05em;text-transform:uppercase;color:var(--tag);}
+
+.callout{
+  margin:28px 0;padding:20px 22px;background:var(--surface);border:1px solid var(--line);
+  border-left:4px solid var(--tag);border-radius:10px;box-shadow:var(--shadow);
+}
+.callout .label{display:block;font:600 .78rem 'IBM Plex Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--tag);margin-bottom:8px;}
+.callout p{margin:0;}
+
+.post-footer{margin-top:44px;padding-top:24px;border-top:1px solid var(--line);}
+.post-footer a.guide-link{display:inline-flex;align-items:center;gap:8px;font:600 .95rem 'Public Sans',sans-serif;color:var(--tag);text-decoration:none;}
+.post-footer a.guide-link:hover{text-decoration:underline;}
+
+footer.note{border-top:1px solid var(--line);padding:20px 24px;text-align:center;font-size:.8rem;color:var(--ink-soft);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../">← Back to Blog</a>
+  <div class="post-meta"><span class="tag">CISA</span><span class="read-time">5 min read</span></div>
+  <h1 class="title">Governance vs. Management: The CISA Distinction That Trips Everyone Up</h1>
+  <p class="dek">In everyday speech, "who's governing this" and "who's managing this" sound like the same question. On the exam — and in a real audit finding — they're answered by two different people.</p>
+
+  <article>
+    <p>Domain 1 of the CISA exam leans on this distinction constantly, and it's easy to blur because both words describe "people in charge of stuff." The cleanest way to keep them apart is to ask a different question of each: governance asks <i>are we doing the right things?</i> Management asks <i>are we doing things right?</i></p>
+
+    <h2>Governance sets direction and watches from above</h2>
+    <p>Governance is the board and senior leadership's job. It's about setting strategy, approving policy, allocating resources, and holding management accountable for outcomes. Governance doesn't execute — it evaluates, directs, and monitors. A board doesn't configure a firewall; it approves the security policy that says a firewall is required and then asks for evidence that policy is being followed.</p>
+
+    <h2>Management executes within the direction it's given</h2>
+    <p>Management — IT management, security management — plans, builds, runs, and monitors the actual operations. They translate a governance-level policy ("all remote access requires MFA") into a working control (an actual MFA rollout, a help desk process, a monitoring dashboard). Management reports upward; governance evaluates what's reported and adjusts direction accordingly.</p>
+
+    <table class="compare">
+      <tr><th>Governance</th><th>Management</th></tr>
+      <tr><td>Sets strategy and policy</td><td>Implements policy operationally</td></tr>
+      <tr><td>Evaluates and directs</td><td>Plans, builds, runs</td></tr>
+      <tr><td>Board / senior leadership</td><td>IT and security management</td></tr>
+      <tr><td>"Are we doing the right things?"</td><td>"Are we doing things right?"</td></tr>
+    </table>
+
+    <h2>Why the exam cares so much</h2>
+    <p>A recurring question pattern describes a scenario — say, a security incident caused by a missing patching process — and asks whether it represents a governance failure or a management failure. The trick is that it's often <i>both</i>, at different levels: management failed to execute patching consistently, and governance failed by not requiring reporting that would have surfaced the gap sooner. CISA wants you to recognize that a control breakdown at the operational level frequently traces back to an oversight gap at the governance level — that's the whole reason governance exists, to catch what management alone would miss.</p>
+
+    <h2>A concrete example</h2>
+    <p>Imagine an organization has no formal data classification policy, and as a result, sensitive customer data ends up on a shared drive with broad access. Is that a management problem or a governance problem?</p>
+    <ul>
+      <li>If a classification policy <b>exists</b> but employees weren't trained or the drive wasn't configured to enforce it — that's a management execution gap.</li>
+      <li>If <b>no policy exists at all</b>, and no one at the leadership level required one — that's a governance gap. Management can't manage a rule that governance never set.</li>
+    </ul>
+
+    <div class="callout">
+      <span class="label">Remember it as</span>
+      <p>Governance writes the rulebook and checks the scoreboard. Management plays the game. If there's no rulebook, don't blame the players.</p>
+    </div>
+
+    <p>Once you have this frame, a lot of Domain 1 questions stop being about memorizing definitions and start being about correctly locating where in the org chart a given failure actually originated.</p>
+  </article>
+
+  <div class="post-footer">
+    <a class="guide-link" href="../../cisa/">See the full CISA in Plain English guide →</a>
+  </div>
+</div>
+<footer class="note">Short-form companion to the CISA guide — part of the <a href="../">Plain English blog</a>.</footer>
+</body>
+</html>
