@@ -93,7 +93,7 @@
     transform: translateX(-50%);
     padding: 1.6rem 2rem;
   }
-  .mermaid-figure.mermaid-large svg { min-width: 700px; }
+  .mermaid-figure.mermaid-large svg { width: 100% !important; height: auto !important; max-width: 1100px; }
   .post-footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
   .post-footer a.guide-link { display: inline-flex; align-items: center; gap: 8px; font: 600 .95rem -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: var(--accent); text-decoration: none; }
   .post-footer a.guide-link:hover { text-decoration: underline; }
@@ -459,7 +459,7 @@ monitor_ongoing()</code></pre>
 <blockquote>
 <p><strong>Governance is your architecture (HLD). Frameworks are your data model. The Policy Hierarchy is your LLD, and it’s literally a tree. Risk Management is your business logic, and it runs on heaps, hash maps, and graphs. Controls are your connectors, built with the Strategy and Factory patterns. The Three Lines of Defense are your RBAC roles. Audits are your immutable, append-only logs. And AI reads, explains, and recommends — sitting on top of all of it.</strong></p>
 </blockquote>
-<pre class="mermaid mermaid-large"><code>%%{init: {'flowchart': {'useMaxWidth': false, 'nodeSpacing': 45, 'rankSpacing': 65}, 'themeVariables': {'fontSize': '20px'}}}%%
+<pre class="mermaid mermaid-large"><code>%%{init: {'flowchart': {'useMaxWidth': true, 'nodeSpacing': 45, 'rankSpacing': 65}, 'themeVariables': {'fontSize': '20px'}}}%%
 flowchart TD
     G[Governance] --&gt; HLD[HLD:&lt;br/&gt;Architecture &amp; Config]
     F[Frameworks &amp; Standards] --&gt; DM[Data Model /&lt;br/&gt;Reference Schema]
