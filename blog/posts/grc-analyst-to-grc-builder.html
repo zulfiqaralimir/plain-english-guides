@@ -85,6 +85,15 @@
   }
   /* figure captions: the <em>-only paragraph right after a diagram */
   .mermaid-figure + p em { display: block; text-align: center; font-size: 0.9rem; margin-top: -0.6rem; }
+  /* larger, full-bleed variant for dense diagrams (e.g. the closing mental-model figure) */
+  .mermaid-figure.mermaid-large {
+    max-width: none;
+    width: 100vw;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    padding: 1.6rem 2rem;
+  }
+  .mermaid-figure.mermaid-large svg { min-width: 700px; }
   .post-footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
   .post-footer a.guide-link { display: inline-flex; align-items: center; gap: 8px; font: 600 .95rem -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: var(--accent); text-decoration: none; }
   .post-footer a.guide-link:hover { text-decoration: underline; }
@@ -450,7 +459,8 @@ monitor_ongoing()</code></pre>
 <blockquote>
 <p><strong>Governance is your architecture (HLD). Frameworks are your data model. The Policy Hierarchy is your LLD, and it’s literally a tree. Risk Management is your business logic, and it runs on heaps, hash maps, and graphs. Controls are your connectors, built with the Strategy and Factory patterns. The Three Lines of Defense are your RBAC roles. Audits are your immutable, append-only logs. And AI reads, explains, and recommends — sitting on top of all of it.</strong></p>
 </blockquote>
-<pre class="mermaid"><code>flowchart TD
+<pre class="mermaid mermaid-large"><code>%%{init: {'flowchart': {'useMaxWidth': false, 'nodeSpacing': 45, 'rankSpacing': 65}, 'themeVariables': {'fontSize': '20px'}}}%%
+flowchart TD
     G[Governance] --&gt; HLD[HLD:&lt;br/&gt;Architecture &amp; Config]
     F[Frameworks &amp; Standards] --&gt; DM[Data Model /&lt;br/&gt;Reference Schema]
     P[Policy Hierarchy] --&gt; LLD[LLD:&lt;br/&gt;Entity Relationships]
@@ -474,7 +484,8 @@ monitor_ongoing()</code></pre>
   document.querySelectorAll('pre.mermaid > code').forEach(function(codeEl) {
     var pre = codeEl.parentElement;
     var div = document.createElement('div');
-    div.className = 'mermaid mermaid-figure';
+    var extraClasses = pre.className.split(/\s+/).filter(function(c) { return c && c !== 'mermaid'; });
+    div.className = ['mermaid', 'mermaid-figure'].concat(extraClasses).join(' ');
     div.textContent = codeEl.textContent;
     pre.replaceWith(div);
   });
